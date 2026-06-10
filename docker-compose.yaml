@@ -1,0 +1,134 @@
+# todos en una red privada (ifc-egm-network)
+services:
+  s-ifc-egm-mongo:
+    image: mongo:latest
+    container_name: c-ifc-egm-mongo
+    hostname: h-ifc-egm-mongo
+    restart: unless-stopped # levantar si se muere
+    ports:
+      - "27017:27017" # HOST:CONTENEDOR
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    volumes:
+      # evitar eliminar info con docker compose down
+      - mongo-data:/data/db
+    deploy:
+      resources:
+        limits:
+          memory: 1g # limitar uso de RAM
+    networks:
+      ifc-egm-network:
+        ipv4_address: 10.10.10.11 # IP estática
+    # cada 15 segundos ejecutar el comando hasta ok
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mongosh",
+          "-u",
+          "${MONGO_USER}",
+          "-p",
+          "${MONGO_PASSWORD}",
+          "--authenticationDatabase",
+          "admin",
+          "--eval",
+          "db.adminCommand('ping')"
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  s-ifc-egm-redis:
+    image: redis:latest
+    container_name: c-ifc-egm-redis
+    hostname: h-ifc-egm-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    # guardar en file para evitar pérdidas de datos
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+    networks:
+      ifc-egm-network:
+        ipv4_address: 10.10.10.12
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  s-ifc-egm-cassandra:
+    image: cassandra:latest
+    container_name: c-ifc-egm-cassandra
+    hostname: h-ifc-egm-cassandra
+    restart: unless-stopped
+    ports:
+      - "9042:9042"
+    # para mantener en RAM y no pasar a swap
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      CASSANDRA_CLUSTER_NAME: ${CASSANDRA_CLUSTER_NAME}
+      CASSANDRA_DC: DC1
+      CASSANDRA_RACK: rack1
+      CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+    volumes:
+      - cassandra-data:/var/lib/cassandra
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    networks:
+      ifc-egm-network:
+        ipv4_address: 10.10.10.13
+    healthcheck:
+      test: [ "CMD", "cqlsh", "-e", "describe keyspaces" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  s-ifc-egm-neo4j:
+    image: neo4j:latest
+    container_name: c-ifc-egm-neo4j
+    hostname: h-ifc-egm-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER}/${NEO4J_PASSWORD}
+      NEO4J_server_memory_heap_initial__size: 512M # RAM inicial
+      NEO4J_server_memory_heap_max__size: 1G # RAM máxima
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    networks:
+      ifc-egm-network:
+        ipv4_address: 10.10.10.14
+# red privada
+networks:
+  ifc-egm-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.10.0/24
+volumes:
+  mongo-data:
+  redis-data:
+  cassandra-data:
+  neo4j-data:
+  neo4j-logs:
