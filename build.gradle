@@ -25,6 +25,8 @@ dependencies {
     // Redis
     implementation 'redis.clients:jedis:6.2.0'
     implementation 'org.slf4j:slf4j-api:2.0.17'
+    // MongoDB
+    implementation 'org.mongodb:mongodb-driver-sync:5.0.1'      // controlador oficial de mongo
 }
 
 test {
