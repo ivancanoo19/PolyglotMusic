@@ -13,13 +13,32 @@ docker compose up -d
 
 # Verificamos estado
 docker ps -a
+```
 
-# Para Cassandra
+### Para Cassandra
+```bash
 docker exec -i c-ifc-egm-cassandra cqlsh < /scripts/s-01-create-keyspace-cassandra.cql
 
 docker exec -i c-ifc-egm-cassandra cqlsh < /scripts/s-02-create-tables-cassandra.cql
 ```
 
+### Para MongoDB - carga inicial de datos
+```bash
+# Esperar a que se termine de ejecutar
+docker exec -i c-ifc-egm-mongo mongosh -u admin -p password --authenticationDatabase admin < ./scripts/init-mongo-v2.js
+
+# Para verificar si se cargo bien, entrar al contenedor y consultar
+docker exec -it c-ifc-egm-mongo mongosh -u admin -p password --authenticationDatabase admin
+
+use polyglotmusic
+
+show collections
+db.artists.countDocuments()
+db.albums.countDocuments()
+db.songs.countDocuments
+
+```
+
 ## Pendiente
-- Crear pool y test para mongo, modificar test de redis para que concuerde con el sistema (eduardo)
+- Modificar test de redis para que concuerde con el sistema (eduardo)
 - Implementar DAO de MongoDB (Cano)
