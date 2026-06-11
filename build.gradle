@@ -10,9 +10,21 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Testing
+    testImplementation platform('org.junit:junit-bom:5.10.0') // gestionar versiones de junit
+    testImplementation 'org.junit.jupiter:junit-jupiter' // tests con junit5
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // ejecutar tests
+    compileOnly 'org.projectlombok:lombok:1.18.42' // generar getters, setters y constructores
+    annotationProcessor 'org.projectlombok:lombok:1.18.42' // hace que lombook genere el codigo
+    runtimeOnly 'ch.qos.logback:logback-classic:1.5.18' // muestra logs en consola o archivos
+    // Cargar el .env
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+    // Cassandra
+    implementation 'org.apache.cassandra:java-driver-core:4.19.2'
+    implementation 'org.apache.cassandra:java-driver-query-builder:4.19.2'
+    // Redis
+    implementation 'redis.clients:jedis:6.2.0'
+    implementation 'org.slf4j:slf4j-api:2.0.17'
 }
 
 test {
