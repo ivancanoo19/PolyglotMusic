@@ -176,9 +176,6 @@ def buscar_artista(nombre_artista, token):
     return None, [], []
 
 
-
-
-
 def formatear_mongo_js(nombre_coleccion, lista_datos):
     """Convierte la lista de diccionarios en sintaxis válida de MongoDB Shell"""
     json_str = json.dumps(lista_datos, indent=4, ensure_ascii=False)
@@ -210,11 +207,11 @@ if __name__ == "__main__":
                 todos_albumes.extend(lista_albumes)
                 todas_canciones.extend(lista_canciones)
 
-        # Generar archivo init-mongo.js
+        # para generar el nombre del archivo init-mongo.js
         ruta_archivo = "init-mongo-v2.js"
 
         with open(ruta_archivo, "w", encoding="utf-8") as f:
-            # Seleccionar la base de datos
+            # nombre de la BD
             f.write("db = db.getSiblingDB('polyglotmusic');\n\n")
 
             usuarios_test = """db.users.insertMany([
@@ -222,7 +219,7 @@ if __name__ == "__main__":
     { _id: ObjectId("dddddddddddddddddddd0002"), username: "edutest" }]);\n\n"""
             f.write(usuarios_test)
 
-            # Inscribir catálogos base
+            # catalogo musical base
             f.write(formatear_mongo_js("artists", todos_artistas))
             f.write(formatear_mongo_js("albums", todos_albumes))
             f.write(formatear_mongo_js("songs", todas_canciones))
