@@ -9,88 +9,105 @@ db.artists.insertMany(
     {
         "_id": ObjectId("4dae1c5d2e978444b6a51397"),
         "name": "The Beatles",
+        "photo": "https://i.scdn.co/image/ab6761610000e5ebe9348cc01ff5d55971b22433",
         "albums": [
             {
                 "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
                 "album_title": "Anthology 4",
-                "album_year": 2025
+                "album_year": 2025,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c"
             },
             {
                 "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
                 "album_title": "Revolver (Super Deluxe)",
-                "album_year": 2022
+                "album_year": 2022,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30"
             },
             {
                 "album_id": ObjectId("da39b03b68ba8017e59c7930"),
                 "album_title": "Get Back (Rooftop Performance)",
-                "album_year": 2022
+                "album_year": 2022,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456"
             },
             {
                 "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
                 "album_title": "Live At The Hollywood Bowl",
-                "album_year": 2016
+                "album_year": 2016,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1"
             },
             {
                 "album_id": ObjectId("43d460334c1f569afcca0f24"),
                 "album_title": "Let It Be... Naked (Remastered)",
-                "album_year": 2014
+                "album_year": 2014,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b"
             }
         ]
     },
     {
         "_id": ObjectId("5034983c70523c76d767aca6"),
         "name": "Olivia Rodrigo",
+        "photo": "https://i.scdn.co/image/ab6761610000e5ebe654806251e2661def1f4e65",
         "albums": [
             {
                 "album_id": ObjectId("dfc243f396bc5f28089a41af"),
                 "album_title": "GUTS (spilled)",
-                "album_year": 2024
+                "album_year": 2024,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee"
             },
             {
                 "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
                 "album_title": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
-                "album_year": 2023
+                "album_year": 2023,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686"
             },
             {
                 "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
                 "album_title": "GUTS",
-                "album_year": 2023
+                "album_year": 2023,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d"
             },
             {
                 "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
                 "album_title": "SOUR",
-                "album_year": 2021
+                "album_year": 2021,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a"
             }
         ]
     },
     {
         "_id": ObjectId("d9446cdac81c7cff8382425c"),
         "name": "Arctic Monkeys",
+        "photo": "https://i.scdn.co/image/ab6761610000e5eb7da39dea0a72f581535fb11f",
         "albums": [
             {
                 "album_id": ObjectId("d872134fb70580e9100c877b"),
                 "album_title": "The Car",
-                "album_year": 2022
+                "album_year": 2022,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663"
             },
             {
                 "album_id": ObjectId("203742e3b2a39415c350641e"),
                 "album_title": "Live at the Royal Albert Hall",
-                "album_year": 2020
+                "album_year": 2020,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef"
             },
             {
                 "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
                 "album_title": "Tranquility Base Hotel & Casino",
-                "album_year": 2018
+                "album_year": 2018,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27"
             },
             {
                 "album_id": ObjectId("afbd130238ed230d29266833"),
                 "album_title": "AM",
-                "album_year": 2013
+                "album_year": 2013,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163"
             },
             {
                 "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
                 "album_title": "Suck It and See",
-                "album_year": 2011
+                "album_year": 2011,
+                "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a"
             }
         ]
     }
@@ -103,6 +120,7 @@ db.albums.insertMany(
         "_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "title": "Anthology 4",
         "release_year": 2025,
+        "photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "artist_id": ObjectId("4dae1c5d2e978444b6a51397"),
         "artist_name": "The Beatles",
         "total_songs": 20,
@@ -214,6 +232,7 @@ db.albums.insertMany(
         "_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "title": "Revolver (Super Deluxe)",
         "release_year": 2022,
+        "photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "artist_id": ObjectId("4dae1c5d2e978444b6a51397"),
         "artist_name": "The Beatles",
         "total_songs": 20,
@@ -325,6 +344,7 @@ db.albums.insertMany(
         "_id": ObjectId("da39b03b68ba8017e59c7930"),
         "title": "Get Back (Rooftop Performance)",
         "release_year": 2022,
+        "photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "artist_id": ObjectId("4dae1c5d2e978444b6a51397"),
         "artist_name": "The Beatles",
         "total_songs": 10,
@@ -386,6 +406,7 @@ db.albums.insertMany(
         "_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "title": "Live At The Hollywood Bowl",
         "release_year": 2016,
+        "photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "artist_id": ObjectId("4dae1c5d2e978444b6a51397"),
         "artist_name": "The Beatles",
         "total_songs": 17,
@@ -482,6 +503,7 @@ db.albums.insertMany(
         "_id": ObjectId("43d460334c1f569afcca0f24"),
         "title": "Let It Be... Naked (Remastered)",
         "release_year": 2014,
+        "photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "artist_id": ObjectId("4dae1c5d2e978444b6a51397"),
         "artist_name": "The Beatles",
         "total_songs": 11,
@@ -548,6 +570,7 @@ db.albums.insertMany(
         "_id": ObjectId("dfc243f396bc5f28089a41af"),
         "title": "GUTS (spilled)",
         "release_year": 2024,
+        "photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "artist_id": ObjectId("5034983c70523c76d767aca6"),
         "artist_name": "Olivia Rodrigo",
         "total_songs": 17,
@@ -644,6 +667,7 @@ db.albums.insertMany(
         "_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "title": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
         "release_year": 2023,
+        "photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "artist_id": ObjectId("5034983c70523c76d767aca6"),
         "artist_name": "Olivia Rodrigo",
         "total_songs": 17,
@@ -740,6 +764,7 @@ db.albums.insertMany(
         "_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "title": "GUTS",
         "release_year": 2023,
+        "photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "artist_id": ObjectId("5034983c70523c76d767aca6"),
         "artist_name": "Olivia Rodrigo",
         "total_songs": 12,
@@ -811,6 +836,7 @@ db.albums.insertMany(
         "_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "title": "SOUR",
         "release_year": 2021,
+        "photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "artist_id": ObjectId("5034983c70523c76d767aca6"),
         "artist_name": "Olivia Rodrigo",
         "total_songs": 11,
@@ -877,6 +903,7 @@ db.albums.insertMany(
         "_id": ObjectId("d872134fb70580e9100c877b"),
         "title": "The Car",
         "release_year": 2022,
+        "photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "artist_id": ObjectId("d9446cdac81c7cff8382425c"),
         "artist_name": "Arctic Monkeys",
         "total_songs": 10,
@@ -938,6 +965,7 @@ db.albums.insertMany(
         "_id": ObjectId("203742e3b2a39415c350641e"),
         "title": "Live at the Royal Albert Hall",
         "release_year": 2020,
+        "photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "artist_id": ObjectId("d9446cdac81c7cff8382425c"),
         "artist_name": "Arctic Monkeys",
         "total_songs": 20,
@@ -1049,6 +1077,7 @@ db.albums.insertMany(
         "_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "title": "Tranquility Base Hotel & Casino",
         "release_year": 2018,
+        "photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "artist_id": ObjectId("d9446cdac81c7cff8382425c"),
         "artist_name": "Arctic Monkeys",
         "total_songs": 11,
@@ -1115,6 +1144,7 @@ db.albums.insertMany(
         "_id": ObjectId("afbd130238ed230d29266833"),
         "title": "AM",
         "release_year": 2013,
+        "photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "artist_id": ObjectId("d9446cdac81c7cff8382425c"),
         "artist_name": "Arctic Monkeys",
         "total_songs": 12,
@@ -1186,6 +1216,7 @@ db.albums.insertMany(
         "_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "title": "Suck It and See",
         "release_year": 2011,
+        "photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "artist_id": ObjectId("d9446cdac81c7cff8382425c"),
         "artist_name": "Arctic Monkeys",
         "total_songs": 12,
@@ -1265,6 +1296,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 186,
         "average_users_score": 0.0
     },
@@ -1275,6 +1307,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 168,
         "average_users_score": 0.0
     },
@@ -1285,6 +1318,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 198,
         "average_users_score": 0.0
     },
@@ -1295,6 +1329,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 187,
         "average_users_score": 0.0
     },
@@ -1305,6 +1340,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 158,
         "average_users_score": 0.0
     },
@@ -1315,6 +1351,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 129,
         "average_users_score": 0.0
     },
@@ -1325,6 +1362,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 208,
         "average_users_score": 0.0
     },
@@ -1335,6 +1373,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 156,
         "average_users_score": 0.0
     },
@@ -1345,6 +1384,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 146,
         "average_users_score": 0.0
     },
@@ -1355,6 +1395,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 160,
         "average_users_score": 0.0
     },
@@ -1365,6 +1406,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 144,
         "average_users_score": 0.0
     },
@@ -1375,6 +1417,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 155,
         "average_users_score": 0.0
     },
@@ -1385,6 +1428,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 176,
         "average_users_score": 0.0
     },
@@ -1395,6 +1439,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 200,
         "average_users_score": 0.0
     },
@@ -1405,6 +1450,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 230,
         "average_users_score": 0.0
     },
@@ -1415,6 +1461,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 366,
         "average_users_score": 0.0
     },
@@ -1425,6 +1472,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 371,
         "average_users_score": 0.0
     },
@@ -1435,6 +1483,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 282,
         "average_users_score": 0.0
     },
@@ -1445,6 +1494,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 296,
         "average_users_score": 0.0
     },
@@ -1455,6 +1505,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("750ad141c8f0f1fdb4b0094c"),
         "album_name": "Anthology 4",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27331fec16a9147a10a7e3a539c",
         "duration": 194,
         "average_users_score": 0.0
     },
@@ -1465,6 +1516,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 158,
         "average_users_score": 0.0
     },
@@ -1475,6 +1527,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 126,
         "average_users_score": 0.0
     },
@@ -1485,6 +1538,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 180,
         "average_users_score": 0.0
     },
@@ -1495,6 +1549,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 179,
         "average_users_score": 0.0
     },
@@ -1505,6 +1560,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 144,
         "average_users_score": 0.0
     },
@@ -1515,6 +1571,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 158,
         "average_users_score": 0.0
     },
@@ -1525,6 +1582,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 156,
         "average_users_score": 0.0
     },
@@ -1535,6 +1593,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 129,
         "average_users_score": 0.0
     },
@@ -1545,6 +1604,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 120,
         "average_users_score": 0.0
     },
@@ -1555,6 +1615,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 119,
         "average_users_score": 0.0
     },
@@ -1565,6 +1626,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 134,
         "average_users_score": 0.0
     },
@@ -1575,6 +1637,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 147,
         "average_users_score": 0.0
     },
@@ -1585,6 +1648,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 149,
         "average_users_score": 0.0
     },
@@ -1595,6 +1659,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 177,
         "average_users_score": 0.0
     },
@@ -1605,6 +1670,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 212,
         "average_users_score": 0.0
     },
@@ -1615,6 +1681,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 185,
         "average_users_score": 0.0
     },
@@ -1625,6 +1692,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 250,
         "average_users_score": 0.0
     },
@@ -1635,6 +1703,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 156,
         "average_users_score": 0.0
     },
@@ -1645,6 +1714,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 162,
         "average_users_score": 0.0
     },
@@ -1655,6 +1725,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("9c3279d16b5a3df7adecd07c"),
         "album_name": "Revolver (Super Deluxe)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27333b139ea459f9d93c7b8fb30",
         "duration": 160,
         "average_users_score": 0.0
     },
@@ -1665,6 +1736,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 283,
         "average_users_score": 0.0
     },
@@ -1675,6 +1747,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 204,
         "average_users_score": 0.0
     },
@@ -1685,6 +1758,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 202,
         "average_users_score": 0.0
     },
@@ -1695,6 +1769,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 283,
         "average_users_score": 0.0
     },
@@ -1705,6 +1780,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 189,
         "average_users_score": 0.0
     },
@@ -1715,6 +1791,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 352,
         "average_users_score": 0.0
     },
@@ -1725,6 +1802,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 25,
         "average_users_score": 0.0
     },
@@ -1735,6 +1813,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 335,
         "average_users_score": 0.0
     },
@@ -1745,6 +1824,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 209,
         "average_users_score": 0.0
     },
@@ -1755,6 +1835,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("da39b03b68ba8017e59c7930"),
         "album_name": "Get Back (Rooftop Performance)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27304167cd5b7ddbf5c4a563456",
         "duration": 226,
         "average_users_score": 0.0
     },
@@ -1765,6 +1846,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 93,
         "average_users_score": 0.0
     },
@@ -1775,6 +1857,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 192,
         "average_users_score": 0.0
     },
@@ -1785,6 +1868,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 219,
         "average_users_score": 0.0
     },
@@ -1795,6 +1879,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 146,
         "average_users_score": 0.0
     },
@@ -1805,6 +1890,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 134,
         "average_users_score": 0.0
     },
@@ -1815,6 +1901,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 138,
         "average_users_score": 0.0
     },
@@ -1825,6 +1912,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 134,
         "average_users_score": 0.0
     },
@@ -1835,6 +1923,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 128,
         "average_users_score": 0.0
     },
@@ -1845,6 +1934,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 193,
         "average_users_score": 0.0
     },
@@ -1855,6 +1945,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 172,
         "average_users_score": 0.0
     },
@@ -1865,6 +1956,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 135,
         "average_users_score": 0.0
     },
@@ -1875,6 +1967,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 191,
         "average_users_score": 0.0
     },
@@ -1885,6 +1978,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 124,
         "average_users_score": 0.0
     },
@@ -1895,6 +1989,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 154,
         "average_users_score": 0.0
     },
@@ -1905,6 +2000,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 149,
         "average_users_score": 0.0
     },
@@ -1915,6 +2011,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 141,
         "average_users_score": 0.0
     },
@@ -1925,6 +2022,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("fc1265aa3ccd937548edbaa2"),
         "album_name": "Live At The Hollywood Bowl",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2731211f350b2fe058161c249f1",
         "duration": 164,
         "average_users_score": 0.0
     },
@@ -1935,6 +2033,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 154,
         "average_users_score": 0.0
     },
@@ -1945,6 +2044,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 218,
         "average_users_score": 0.0
     },
@@ -1955,6 +2055,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 147,
         "average_users_score": 0.0
     },
@@ -1965,6 +2066,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 214,
         "average_users_score": 0.0
     },
@@ -1975,6 +2077,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 200,
         "average_users_score": 0.0
     },
@@ -1985,6 +2088,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 210,
         "average_users_score": 0.0
     },
@@ -1995,6 +2099,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 164,
         "average_users_score": 0.0
     },
@@ -2005,6 +2110,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 198,
         "average_users_score": 0.0
     },
@@ -2015,6 +2121,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 141,
         "average_users_score": 0.0
     },
@@ -2025,6 +2132,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 218,
         "average_users_score": 0.0
     },
@@ -2035,6 +2143,7 @@ db.songs.insertMany(
         "artist_name": "The Beatles",
         "album_id": ObjectId("43d460334c1f569afcca0f24"),
         "album_name": "Let It Be... Naked (Remastered)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273b9dd63a105a5afe5d58a783b",
         "duration": 235,
         "average_users_score": 0.0
     },
@@ -2045,6 +2154,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 165,
         "average_users_score": 0.0
     },
@@ -2055,6 +2165,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 184,
         "average_users_score": 0.0
     },
@@ -2065,6 +2176,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 219,
         "average_users_score": 0.0
     },
@@ -2075,6 +2187,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 177,
         "average_users_score": 0.0
     },
@@ -2085,6 +2198,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 203,
         "average_users_score": 0.0
     },
@@ -2095,6 +2209,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 198,
         "average_users_score": 0.0
     },
@@ -2105,6 +2220,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 231,
         "average_users_score": 0.0
     },
@@ -2115,6 +2231,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 211,
         "average_users_score": 0.0
     },
@@ -2125,6 +2242,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 154,
         "average_users_score": 0.0
     },
@@ -2135,6 +2253,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 189,
         "average_users_score": 0.0
     },
@@ -2145,6 +2264,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 199,
         "average_users_score": 0.0
     },
@@ -2155,6 +2275,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 222,
         "average_users_score": 0.0
     },
@@ -2165,6 +2286,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 170,
         "average_users_score": 0.0
     },
@@ -2175,6 +2297,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 121,
         "average_users_score": 0.0
     },
@@ -2185,6 +2308,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 263,
         "average_users_score": 0.0
     },
@@ -2195,6 +2319,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 192,
         "average_users_score": 0.0
     },
@@ -2205,6 +2330,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("dfc243f396bc5f28089a41af"),
         "album_name": "GUTS (spilled)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734063d624ebf8ff67bc3701ee",
         "duration": 169,
         "average_users_score": 0.0
     },
@@ -2215,6 +2341,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 205,
         "average_users_score": 0.0
     },
@@ -2225,6 +2352,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 143,
         "average_users_score": 0.0
     },
@@ -2235,6 +2363,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 229,
         "average_users_score": 0.0
     },
@@ -2245,6 +2374,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 95,
         "average_users_score": 0.0
     },
@@ -2255,6 +2385,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 222,
         "average_users_score": 0.0
     },
@@ -2265,6 +2396,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 139,
         "average_users_score": 0.0
     },
@@ -2275,6 +2407,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 222,
         "average_users_score": 0.0
     },
@@ -2285,6 +2418,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 168,
         "average_users_score": 0.0
     },
@@ -2295,6 +2429,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 200,
         "average_users_score": 0.0
     },
@@ -2305,6 +2440,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 43,
         "average_users_score": 0.0
     },
@@ -2315,6 +2451,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 193,
         "average_users_score": 0.0
     },
@@ -2325,6 +2462,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 206,
         "average_users_score": 0.0
     },
@@ -2335,6 +2473,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 161,
         "average_users_score": 0.0
     },
@@ -2345,6 +2484,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 233,
         "average_users_score": 0.0
     },
@@ -2355,6 +2495,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 169,
         "average_users_score": 0.0
     },
@@ -2365,6 +2506,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 163,
         "average_users_score": 0.0
     },
@@ -2375,6 +2517,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("9a2b28b0c1b1d6f3efdbced9"),
         "album_name": "The Hunger Games: The Ballad of Songbirds & Snakes (Music From & Inspired By)",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27322ad9f1afdbeeceaf0c91686",
         "duration": 198,
         "average_users_score": 0.0
     },
@@ -2385,6 +2528,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 165,
         "average_users_score": 0.0
     },
@@ -2395,6 +2539,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 184,
         "average_users_score": 0.0
     },
@@ -2405,6 +2550,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 219,
         "average_users_score": 0.0
     },
@@ -2415,6 +2561,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 177,
         "average_users_score": 0.0
     },
@@ -2425,6 +2572,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 203,
         "average_users_score": 0.0
     },
@@ -2435,6 +2583,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 198,
         "average_users_score": 0.0
     },
@@ -2445,6 +2594,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 231,
         "average_users_score": 0.0
     },
@@ -2455,6 +2605,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 211,
         "average_users_score": 0.0
     },
@@ -2465,6 +2616,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 154,
         "average_users_score": 0.0
     },
@@ -2475,6 +2627,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 189,
         "average_users_score": 0.0
     },
@@ -2485,6 +2638,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 199,
         "average_users_score": 0.0
     },
@@ -2495,6 +2649,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("44b54cd738f4cb5f01b80902"),
         "album_name": "GUTS",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d",
         "duration": 222,
         "average_users_score": 0.0
     },
@@ -2505,6 +2660,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 143,
         "average_users_score": 0.0
     },
@@ -2515,6 +2671,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 229,
         "average_users_score": 0.0
     },
@@ -2525,6 +2682,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 242,
         "average_users_score": 0.0
     },
@@ -2535,6 +2693,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 163,
         "average_users_score": 0.0
     },
@@ -2545,6 +2704,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 215,
         "average_users_score": 0.0
     },
@@ -2555,6 +2715,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 178,
         "average_users_score": 0.0
     },
@@ -2565,6 +2726,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 202,
         "average_users_score": 0.0
     },
@@ -2575,6 +2737,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 175,
         "average_users_score": 0.0
     },
@@ -2585,6 +2748,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 173,
         "average_users_score": 0.0
     },
@@ -2595,6 +2759,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 152,
         "average_users_score": 0.0
     },
@@ -2605,6 +2770,7 @@ db.songs.insertMany(
         "artist_name": "Olivia Rodrigo",
         "album_id": ObjectId("25f4c73b5dc14d5a7e171dd1"),
         "album_name": "SOUR",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273a91c10fe9472d9bd89802e5a",
         "duration": 209,
         "average_users_score": 0.0
     },
@@ -2615,6 +2781,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 265,
         "average_users_score": 0.0
     },
@@ -2625,6 +2792,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 191,
         "average_users_score": 0.0
     },
@@ -2635,6 +2803,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 239,
         "average_users_score": 0.0
     },
@@ -2645,6 +2814,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 197,
         "average_users_score": 0.0
     },
@@ -2655,6 +2825,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 290,
         "average_users_score": 0.0
     },
@@ -2665,6 +2836,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 198,
         "average_users_score": 0.0
     },
@@ -2675,6 +2847,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 237,
         "average_users_score": 0.0
     },
@@ -2685,6 +2858,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 244,
         "average_users_score": 0.0
     },
@@ -2695,6 +2869,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 210,
         "average_users_score": 0.0
     },
@@ -2705,6 +2880,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("d872134fb70580e9100c877b"),
         "album_name": "The Car",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b27307823ee6237208c835802663",
         "duration": 167,
         "average_users_score": 0.0
     },
@@ -2715,6 +2891,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 331,
         "average_users_score": 0.0
     },
@@ -2725,6 +2902,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 209,
         "average_users_score": 0.0
     },
@@ -2735,6 +2913,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 240,
         "average_users_score": 0.0
     },
@@ -2745,6 +2924,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 281,
         "average_users_score": 0.0
     },
@@ -2755,6 +2935,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 183,
         "average_users_score": 0.0
     },
@@ -2765,6 +2946,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 275,
         "average_users_score": 0.0
     },
@@ -2775,6 +2957,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 202,
         "average_users_score": 0.0
     },
@@ -2785,6 +2968,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 239,
         "average_users_score": 0.0
     },
@@ -2795,6 +2979,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 221,
         "average_users_score": 0.0
     },
@@ -2805,6 +2990,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 350,
         "average_users_score": 0.0
     },
@@ -2815,6 +3001,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 246,
         "average_users_score": 0.0
     },
@@ -2825,6 +3012,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 243,
         "average_users_score": 0.0
     },
@@ -2835,6 +3023,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 201,
         "average_users_score": 0.0
     },
@@ -2845,6 +3034,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 221,
         "average_users_score": 0.0
     },
@@ -2855,6 +3045,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 241,
         "average_users_score": 0.0
     },
@@ -2865,6 +3056,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 221,
         "average_users_score": 0.0
     },
@@ -2875,6 +3067,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 293,
         "average_users_score": 0.0
     },
@@ -2885,6 +3078,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 335,
         "average_users_score": 0.0
     },
@@ -2895,6 +3089,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 264,
         "average_users_score": 0.0
     },
@@ -2905,6 +3100,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("203742e3b2a39415c350641e"),
         "album_name": "Live at the Royal Albert Hall",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273380fbefcd8f05250af8755ef",
         "duration": 371,
         "average_users_score": 0.0
     },
@@ -2915,6 +3111,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 354,
         "average_users_score": 0.0
     },
@@ -2925,6 +3122,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 208,
         "average_users_score": 0.0
     },
@@ -2935,6 +3133,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 158,
         "average_users_score": 0.0
     },
@@ -2945,6 +3144,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 211,
         "average_users_score": 0.0
     },
@@ -2955,6 +3155,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 173,
         "average_users_score": 0.0
     },
@@ -2965,6 +3166,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 312,
         "average_users_score": 0.0
     },
@@ -2975,6 +3177,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 180,
         "average_users_score": 0.0
     },
@@ -2985,6 +3188,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 185,
         "average_users_score": 0.0
     },
@@ -2995,6 +3199,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 182,
         "average_users_score": 0.0
     },
@@ -3005,6 +3210,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 271,
         "average_users_score": 0.0
     },
@@ -3015,6 +3221,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("f088ce60e0ff74738f5277e2"),
         "album_name": "Tranquility Base Hotel & Casino",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2738895ff0f90525f4aa9437c27",
         "duration": 217,
         "average_users_score": 0.0
     },
@@ -3025,6 +3232,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 272,
         "average_users_score": 0.0
     },
@@ -3035,6 +3243,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 201,
         "average_users_score": 0.0
     },
@@ -3045,6 +3254,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 206,
         "average_users_score": 0.0
     },
@@ -3055,6 +3265,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 207,
         "average_users_score": 0.0
     },
@@ -3065,6 +3276,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 185,
         "average_users_score": 0.0
     },
@@ -3075,6 +3287,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 243,
         "average_users_score": 0.0
     },
@@ -3085,6 +3298,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 215,
         "average_users_score": 0.0
     },
@@ -3095,6 +3309,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 181,
         "average_users_score": 0.0
     },
@@ -3105,6 +3320,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 161,
         "average_users_score": 0.0
     },
@@ -3115,6 +3331,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 193,
         "average_users_score": 0.0
     },
@@ -3125,6 +3342,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 257,
         "average_users_score": 0.0
     },
@@ -3135,6 +3353,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("afbd130238ed230d29266833"),
         "album_name": "AM",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163",
         "duration": 183,
         "average_users_score": 0.0
     },
@@ -3145,6 +3364,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 234,
         "average_users_score": 0.0
     },
@@ -3155,6 +3375,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 217,
         "average_users_score": 0.0
     },
@@ -3165,6 +3386,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 179,
         "average_users_score": 0.0
     },
@@ -3175,6 +3397,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 180,
         "average_users_score": 0.0
     },
@@ -3185,6 +3408,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 183,
         "average_users_score": 0.0
     },
@@ -3195,6 +3419,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 142,
         "average_users_score": 0.0
     },
@@ -3205,6 +3430,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 232,
         "average_users_score": 0.0
     },
@@ -3215,6 +3441,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 162,
         "average_users_score": 0.0
     },
@@ -3225,6 +3452,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 203,
         "average_users_score": 0.0
     },
@@ -3235,6 +3463,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 191,
         "average_users_score": 0.0
     },
@@ -3245,6 +3474,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 225,
         "average_users_score": 0.0
     },
@@ -3255,6 +3485,7 @@ db.songs.insertMany(
         "artist_name": "Arctic Monkeys",
         "album_id": ObjectId("fc9827fe1ce82fc35ad636c2"),
         "album_name": "Suck It and See",
+        "album_photo": "https://i.scdn.co/image/ab67616d0000b273cb44038b22f3d8a5e4e62d5a",
         "duration": 256,
         "average_users_score": 0.0
     }

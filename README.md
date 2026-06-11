@@ -25,7 +25,7 @@ docker exec -i c-ifc-egm-cassandra cqlsh < /scripts/s-02-create-tables-cassandra
 ### Para MongoDB - carga inicial de datos
 ```bash
 # Esperar a que se termine de ejecutar
-docker exec -i c-ifc-egm-mongo mongosh -u admin -p password --authenticationDatabase admin < ./scripts/init-mongo-v2.js
+docker exec -i c-ifc-egm-mongo mongosh -u admin -p password --authenticationDatabase admin < ./scripts/init-mongo-final.js
 
 # Para verificar si se cargo bien, entrar al contenedor y consultar
 docker exec -it c-ifc-egm-mongo mongosh -u admin -p password --authenticationDatabase admin
@@ -36,6 +36,12 @@ show collections
 db.artists.countDocuments()
 db.albums.countDocuments()
 db.songs.countDocuments
+
+
+
+# Si se desea borrar la base para volver a ejecutar la carga inicial:
+use polyglotmusic
+db.dropDatabase()
 
 ```
 

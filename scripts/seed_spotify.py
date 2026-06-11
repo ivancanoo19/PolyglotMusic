@@ -58,6 +58,10 @@ def get_artist(nombre_artista, token):
             artista_id_spotify = artista['id']
             artista_nombre = artista['name']
 
+            # recuperamos la foto del artista, normalmente la primera es la de máx. resolución
+            imagenes_artista = artista.get('images', [])
+            url_foto_artista = imagenes_artista[0]['url'] if imagenes_artista else ""
+
             # desempaquetamos los tres conjuntos
             # Para la coleccion albums, mandamos info. rapida del artista que se va a embeber (ID y nombre)
             arreglo_albumes, docs_albums, docs_songs = get_albums(
@@ -68,6 +72,7 @@ def get_artist(nombre_artista, token):
             documento_artista = {
                 "_id": gen_object_id(artista_id_spotify),
                 "name": artista_nombre,
+                "photo": url_foto_artista,
                 "albums": arreglo_albumes
             }
 
@@ -78,7 +83,7 @@ def get_artist(nombre_artista, token):
 
 
 def get_albums(artista_id_spotify, artista_nombre, token):
-     """Se buscan los albumes de un artista en Spotify con su spotify_id. Se construye su documento y las canciones"""
+    """Se buscan los albumes de un artista en Spotify con su spotify_id. Se construye su documento y las canciones"""
     url = f"https://api.spotify.com/v1/artists/{artista_id_spotify}/albums"
     headers = {"Authorization": f"Bearer {token}"}
     params = {"include_groups": "album", "limit": 5, "market": "MX", "offset": 0}
@@ -104,10 +109,14 @@ def get_albums(artista_id_spotify, artista_nombre, token):
             except (ValueError, IndexError):
                 anio = 0
 
+            # para la imagen del album
+            imagenes_album = album.get('images', [])
+            url_foto_album = imagenes_album[0]['url'] if imagenes_album else ""
+
             # Extracción de tracks
             # Se manda info. del album que se quiere mostrar en la coleccion songs, ademas del artista
             doc_album, docs_canciones = get_songs_models(
-                album['id'], titulo, anio, artista_id_mongo, artista_nombre, token
+                album['id'], titulo, anio, url_foto_album, artista_id_mongo, artista_nombre, token
             )
 
             # Recolectamos los datos para las colecciones independientes
@@ -118,13 +127,14 @@ def get_albums(artista_id_spotify, artista_nombre, token):
             albumes_para_artista.append({
                 "album_id": doc_album["_id"],
                 "album_title": doc_album["title"],
-                "album_year": doc_album["release_year"]
+                "album_year": doc_album["release_year"],
+                "album_photo": url_foto_album
             })
             titulos_vistos.add(titulo.lower())
 
     return albumes_para_artista, coleccion_albums, coleccion_songs
 
-def get_songs_models(album_spotify_id, album_titulo, album_anio, artista_id_mongo, artista_nombre, token):
+def get_songs_models(album_spotify_id, album_titulo, album_anio, album_foto, artista_id_mongo, artista_nombre, token):
     """Consulta las canciones de un álbum y construye los documentos para MongoDB finales """
     url = f"https://api.spotify.com/v1/albums/{album_spotify_id}/tracks"
     headers = {"Authorization": f"Bearer {token}"}
@@ -160,6 +170,7 @@ def get_songs_models(album_spotify_id, album_titulo, album_anio, artista_id_mong
                 "artist_name": artista_nombre,
                 "album_id": album_id_mongo,
                 "album_name": album_titulo,
+                "album_photo": album_foto,
                 "duration": duracion_segundos,
                 "average_users_score": 0.0
             }
@@ -170,6 +181,7 @@ def get_songs_models(album_spotify_id, album_titulo, album_anio, artista_id_mong
         "_id": album_id_mongo,
         "title": album_titulo,
         "release_year": album_anio,
+        "photo": album_foto,
         "artist_id": artista_id_mongo,
         "artist_name": artista_nombre,
         "total_songs": total_canciones,
@@ -213,7 +225,7 @@ if __name__ == "__main__":
                 todas_canciones.extend(lista_canciones)
 
         # para generar el nombre del archivo init-mongo.js
-        ruta_archivo = "init-mongo-v2.js"
+        ruta_archivo = "init-mongo-final.js"
 
         with open(ruta_archivo, "w", encoding="utf-8") as f:
             # nombre de la BD
