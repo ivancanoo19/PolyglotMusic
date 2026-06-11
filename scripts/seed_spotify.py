@@ -8,10 +8,10 @@ import re
 CLIENT_ID = '3148092e3c194ec88ca83d507a2c6c8d'
 CLIENT_SECRET = 'c0c53fdf23894b4da06004ffc9014668'
 
-def generar_object_id(cadena_original):
+def gen_object_id(string_id):
     """Convierte un ID de Spotify en un ObjectId válido de 24 caracteres (Hexadecimal)"""
     # esto se guarda como objectID en nuestra BD en mongo, muy importante que sea de longitud 24
-    hash_md5 = hashlib.md5(cadena_original.encode()).hexdigest()
+    hash_md5 = hashlib.md5(string_id.encode()).hexdigest()
     return hash_md5[:24]
 
 def get_token():
@@ -43,7 +43,42 @@ def get_token():
         print(response.json())
         return None
 
-def obtener_albumes_resumen(artista_id_spotify, artista_nombre, token):
+def get_artist(nombre_artista, token):
+    """Se busca el nombre del artista en Spotify y se construye su documento JSON, manda a llamar a album"""
+    url = "https://api.spotify.com/v1/search"
+    headers = {"Authorization": f"Bearer {token}"}
+    params = {"q": nombre_artista, "type": "artist", "limit": 1}
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        resultados = response.json()['artists']['items']
+        if resultados:
+            artista = resultados[0]
+            artista_id_spotify = artista['id']
+            artista_nombre = artista['name']
+
+            # desempaquetamos los tres conjuntos
+            # Para la coleccion albums, mandamos info. rapida del artista que se va a embeber (ID y nombre)
+            arreglo_albumes, docs_albums, docs_songs = get_albums(
+                artista_id_spotify, artista_nombre, token
+            )
+
+            # Construimos el documento para la colección artist
+            documento_artista = {
+                "_id": gen_object_id(artista_id_spotify),
+                "name": artista_nombre,
+                "albums": arreglo_albumes
+            }
+
+            return documento_artista, docs_albums, docs_songs
+        else:
+            return None, [], []
+    return None, [], []
+
+
+def get_albums(artista_id_spotify, artista_nombre, token):
+     """Se buscan los albumes de un artista en Spotify con su spotify_id. Se construye su documento y las canciones"""
     url = f"https://api.spotify.com/v1/artists/{artista_id_spotify}/albums"
     headers = {"Authorization": f"Bearer {token}"}
     params = {"include_groups": "album", "limit": 5, "market": "MX", "offset": 0}
@@ -54,7 +89,7 @@ def obtener_albumes_resumen(artista_id_spotify, artista_nombre, token):
     coleccion_albums = []           # documento final de album
     coleccion_songs = []            # documento final de canciones
     titulos_vistos = set()
-    artista_id_mongo = generar_object_id(artista_id_spotify)
+    artista_id_mongo = gen_object_id(artista_id_spotify)
 
     if response.status_code == 200:
         albumes_spotify = response.json().get('items', [])
@@ -70,7 +105,8 @@ def obtener_albumes_resumen(artista_id_spotify, artista_nombre, token):
                 anio = 0
 
             # Extracción de tracks
-            doc_album, docs_canciones = obtener_tracks_y_construir_modelos(
+            # Se manda info. del album que se quiere mostrar en la coleccion songs, ademas del artista
+            doc_album, docs_canciones = get_songs_models(
                 album['id'], titulo, anio, artista_id_mongo, artista_nombre, token
             )
 
@@ -88,8 +124,8 @@ def obtener_albumes_resumen(artista_id_spotify, artista_nombre, token):
 
     return albumes_para_artista, coleccion_albums, coleccion_songs
 
-def obtener_tracks_y_construir_modelos(album_spotify_id, album_titulo, album_anio, artista_id_mongo, artista_nombre, token):
-    """Consulta las pistas de un álbum y construye los documentos para MongoDB."""
+def get_songs_models(album_spotify_id, album_titulo, album_anio, artista_id_mongo, artista_nombre, token):
+    """Consulta las canciones de un álbum y construye los documentos para MongoDB finales """
     url = f"https://api.spotify.com/v1/albums/{album_spotify_id}/tracks"
     headers = {"Authorization": f"Bearer {token}"}
     response = requests.get(url, headers=headers)
@@ -98,15 +134,15 @@ def obtener_tracks_y_construir_modelos(album_spotify_id, album_titulo, album_ani
     documentos_canciones = []
     duracion_total_album_segundos = 0
     total_canciones = 0
-    album_id_mongo = generar_object_id(album_spotify_id)
+    album_id_mongo = gen_object_id(album_spotify_id)
 
     if response.status_code == 200:
         tracks_spotify = response.json().get('items', [])
         total_canciones = len(tracks_spotify)
 
         for track in tracks_spotify:
-            cancion_id_mongo = generar_object_id(track['id'])
-            duracion_segundos = track['duration_ms'] // 1000  # Conversión a segundos
+            cancion_id_mongo = gen_object_id(track['id'])
+            duracion_segundos = track['duration_ms'] // 1000  # conversión a segundos
             duracion_total_album_segundos += duracion_segundos
 
             # objeto embebido para el arreglo tracklist del álbum
@@ -144,39 +180,8 @@ def obtener_tracks_y_construir_modelos(album_spotify_id, album_titulo, album_ani
     return documento_album, documentos_canciones
 
 
-def buscar_artista(nombre_artista, token):
-    url = "https://api.spotify.com/v1/search"
-    headers = {"Authorization": f"Bearer {token}"}
-    params = {"q": nombre_artista, "type": "artist", "limit": 1}
 
-    response = requests.get(url, headers=headers, params=params)
-
-    if response.status_code == 200:
-        resultados = response.json()['artists']['items']
-        if resultados:
-            artista = resultados[0]
-            artista_id_spotify = artista['id']
-            artista_nombre = artista['name']
-
-            # desempaquetamos los tres conjuntos
-            arreglo_albumes, docs_albums, docs_songs = obtener_albumes_resumen(
-                artista_id_spotify, artista_nombre, token
-            )
-
-            # Construimos el documento para la colección artist
-            documento_artista = {
-                "_id": generar_object_id(artista_id_spotify),
-                "name": artista_nombre,
-                "albums": arreglo_albumes
-            }
-
-            return documento_artista, docs_albums, docs_songs
-        else:
-            return None, [], []
-    return None, [], []
-
-
-def formatear_mongo_js(nombre_coleccion, lista_datos):
+def format_mongo_js(nombre_coleccion, lista_datos):
     """Convierte la lista de diccionarios en sintaxis válida de MongoDB Shell"""
     json_str = json.dumps(lista_datos, indent=4, ensure_ascii=False)
 
@@ -201,7 +206,7 @@ if __name__ == "__main__":
         print("\n- Iniciando extracción masiva...")
         for nombre in artistas_a_buscar:
             print(f"Procesando: {nombre}...")
-            doc_artista, lista_albumes, lista_canciones = buscar_artista(nombre, token)
+            doc_artista, lista_albumes, lista_canciones = get_artist(nombre, token)
             if doc_artista:
                 todos_artistas.append(doc_artista)
                 todos_albumes.extend(lista_albumes)
@@ -220,9 +225,9 @@ if __name__ == "__main__":
             f.write(usuarios_test)
 
             # catalogo musical base
-            f.write(formatear_mongo_js("artists", todos_artistas))
-            f.write(formatear_mongo_js("albums", todos_albumes))
-            f.write(formatear_mongo_js("songs", todas_canciones))
+            f.write(format_mongo_js("artists", todos_artistas))
+            f.write(format_mongo_js("albums", todos_albumes))
+            f.write(format_mongo_js("songs", todas_canciones))
 
         print(f"\n - Archivo {ruta_archivo} generado con éxito.")
         print(f"Resumen: {len(todos_artistas)} Artistas | {len(todos_albumes)} Álbumes | {len(todas_canciones)} Canciones")
