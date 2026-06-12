@@ -1,8 +1,8 @@
 .gradle
 build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+!backend/gradle/wrapper/gradle-wrapper.jar
+!backend/src/main/**/build/
+!backend/src/test/**/build/
 .kotlin
 
 ### IntelliJ IDEA ###
@@ -11,8 +11,8 @@ build/
 *.iml
 *.ipr
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+!backend/src/main/**/out/
+!backend/src/test/**/out/
 
 ### Eclipse ###
 .apt_generated
@@ -23,8 +23,8 @@ out/
 .springBeans
 .sts4-cache
 bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+!backend/src/main/**/bin/
+!backend/src/test/**/bin/
 
 ### NetBeans ###
 /nbproject/private/
@@ -40,6 +40,9 @@ bin/
 .DS_Store
 
 # Extra
+/backend/.env
+/frontend/node_modules
+/frontend/package-lock.json
 .env
 *.log
 # venv de python
