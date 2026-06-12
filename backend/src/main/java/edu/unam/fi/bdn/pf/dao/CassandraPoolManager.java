@@ -9,7 +9,7 @@ import java.net.InetSocketAddress;
 import java.time.Duration;
 
 public class CassandraPoolManager {
-    private static final Dotenv dotenv = Dotenv.load();
+    private static final Dotenv dotenv = Dotenv.configure().directory("../").load();
     private static final String HOST = dotenv.get("CASSANDRA_IP");
     private static final int PORT = Integer.parseInt(dotenv.get("CASSANDRA_PORT"));
     private static final String KEYSPACE = dotenv.get("CASSANDRA_KEYSPACE");
