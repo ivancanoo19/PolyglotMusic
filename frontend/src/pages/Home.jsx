@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { logout } from '../api/auth'
 
 // ── Datos de ejemplo ─────────────────────────────────────────────────────────
 const USER = { name: 'Eduardo', initials: 'EG' }
@@ -119,6 +121,21 @@ export default function Home() {
   const [ratingModal, setRatingModal]   = useState(null)
   const [rating, setRating]             = useState(0)
   const [toasts, setToasts]             = useState([])
+
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+      try {
+        const sessionId = localStorage.getItem('sessionId')
+        await logout(sessionId)
+      } finally {
+        // limpiamos
+        localStorage.removeItem('sessionId')
+        localStorage.removeItem('username')
+        localStorage.removeItem('userId')
+        navigate('/')
+      }
+  }
 
   function toast(msg) {
     const id = Date.now()
@@ -314,6 +331,7 @@ export default function Home() {
               </button>
             ))}
           </div>
+
         </div>
 
         {/* Biblioteca */}
@@ -342,6 +360,16 @@ export default function Home() {
               </button>
             ))}
           </div>
+        </div>
+        {/* Botón para cerrar sesión */}
+        <div className="bg-[#121212] rounded-xl p-2 mt-auto">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-[#a7a7a7] hover:text-red-400 hover:bg-red-400/10 transition-colors"
+          >
+            <span className="text-base w-5 text-center">⏻</span>
+            Cerrar sesión
+          </button>
         </div>
       </div>
 

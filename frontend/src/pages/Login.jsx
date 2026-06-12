@@ -1,18 +1,20 @@
 import { useState } from 'react'
-//import { login } from '../api/auth'
+import { login } from '../api/auth'
 import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
-  const [username, setUsername] = useState('')
+  const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError]       = useState('')
   const navigate = useNavigate()
 
   async function handleLogin() {
     try {
-      const data = await login(username, password)
+      const data = await login(user, password)
       localStorage.setItem('sessionId', data.sessionId)
-      navigate('/catalogo')
+      localStorage.setItem('username',  data.username)
+      localStorage.setItem('userId',    data.userId)
+      navigate('/home')
     } catch (e) {
       setError('Usuario o contraseña incorrectos')
     }
@@ -61,8 +63,8 @@ export default function Login() {
           </label>
           <input
             type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
+            value={user}
+            onChange={e => setUser(e.target.value)}
             placeholder="Correo electrónico o nombre de usuario"
             className="w-full bg-[#242424] border border-[#535353] rounded-md px-3.5 py-3 text-white placeholder-[#6a6a6a] focus:outline-none focus:border-blue-500 focus:bg-[#2a2a2a] transition"
           />

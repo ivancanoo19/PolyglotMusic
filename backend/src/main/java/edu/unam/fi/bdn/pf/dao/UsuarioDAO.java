@@ -4,7 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import edu.unam.fi.bdn.pf.entity.Usuario;
-import org.bson.Document;1
+import org.bson.Document;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -41,14 +41,13 @@ public class UsuarioDAO {
     }
 
     // Para LOGIN
-    public Optional<Usuario> findByEmail(String email) {
-        Document doc = collection().find(Filters.eq("email", email)).first();
-        if (doc == null) return Optional.empty();
-        return Optional.of(docToUsuario(doc));
-    }
-
-    public Optional<Usuario> findByUsername(String username) {
-        Document doc = collection().find(Filters.eq("username", username)).first();
+    public Optional<Usuario> findByEmailOrUsername(String identifier) {
+        Document doc = collection().find(
+                Filters.or(
+                        Filters.eq("email",    identifier),
+                        Filters.eq("username", identifier)
+                )
+        ).first();
         if (doc == null) return Optional.empty();
         return Optional.of(docToUsuario(doc));
     }
