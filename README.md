@@ -2,9 +2,7 @@
 
 ## Config. inicial
 1. Clonar el repo
-2. Cambiarse a `/backend`
-3. Duplicar el archivo `.env.example`, renombrar la copia a `.env` y llenar las credenciales como corresponda
-4. Regresar a `/`
+2. Duplicar el archivo `.env.example`, renombrar la copia a `.env` y llenar las credenciales como corresponda
 5. Abrir en IntelliJ IDEA, Gradle sincroniza en automatico
 
 ## Ejecución
