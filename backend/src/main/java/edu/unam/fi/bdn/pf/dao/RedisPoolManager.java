@@ -14,7 +14,7 @@ import java.time.Duration;
 public class RedisPoolManager {
     private static final JedisPool jedisPool; // variable inmutable de clase, un jedis pool por app
 
-    private static final Dotenv dotenv = Dotenv.load(); // cargar el .env
+    private static final Dotenv dotenv = Dotenv.configure().directory("../").load(); // cargar el .env
     private static final String HOST = dotenv.get("REDIS_IP");
     private static final int PORT = Integer.parseInt(dotenv.get("REDIS_PORT"));
 

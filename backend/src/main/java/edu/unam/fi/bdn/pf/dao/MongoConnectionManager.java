@@ -6,7 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class MongoConnectionManager {
-    private static final Dotenv dotenv = Dotenv.load();
+    private static final Dotenv dotenv = Dotenv.configure().directory("../").load();
     private static final String CONNECTION_URI = dotenv.get("MONGO_URI");
     private static final String DATABASE_NAME = dotenv.get("MONGO_DATABASE");
     private static MongoClient mongoClient = null;
