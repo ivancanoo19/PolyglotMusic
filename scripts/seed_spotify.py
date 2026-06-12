@@ -3,10 +3,14 @@ import base64
 import hashlib
 import json
 import re
+from dotenv import load_dotenv
 
-# credenciales obtenidas de spotify dashboard
-CLIENT_ID = '3148092e3c194ec88ca83d507a2c6c8d'
-CLIENT_SECRET = 'c0c53fdf23894b4da06004ffc9014668'
+# cargar las variables de entorno desde el archivo .env
+load_dotenv()
+
+# se obtienen credenciales de manera segura
+CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
+CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
 
 def gen_object_id(string_id):
     """Convierte un ID de Spotify en un ObjectId válido de 24 caracteres (Hexadecimal)"""
