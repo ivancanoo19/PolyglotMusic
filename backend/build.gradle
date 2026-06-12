@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'edu.unam.fi.bdn.polyglotmusic'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.security:spring-security-crypto'
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
+
+    // Cargar el .env
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+
+    // Cassandra
+    implementation 'org.apache.cassandra:java-driver-core:4.19.2'
+    implementation 'org.apache.cassandra:java-driver-query-builder:4.19.2'
+
+    // Redis
+    implementation 'redis.clients:jedis:6.2.0'
+
+    // MongoDB
+    implementation 'org.mongodb:mongodb-driver-sync:5.2.1'
+}
+
+test {
+    useJUnitPlatform()
+}
