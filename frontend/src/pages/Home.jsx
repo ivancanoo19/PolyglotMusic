@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../api/auth'
+import { buscarCanciones, buscarAlbumes } from '../api/catalogo'
 
 // ── Datos de ejemplo ─────────────────────────────────────────────────────────
 const USER = { name: 'Eduardo', initials: 'EG' }
@@ -121,6 +122,8 @@ export default function Home() {
   const [ratingModal, setRatingModal]   = useState(null)
   const [rating, setRating]             = useState(0)
   const [toasts, setToasts]             = useState([])
+  const [searchResults, setSearchResults] = useState({ songs: [], albums: []})
+  const [searching, setSearching] = useState(false)
 
   const navigate = useNavigate();
 
@@ -134,6 +137,22 @@ export default function Home() {
         localStorage.removeItem('username')
         localStorage.removeItem('userId')
         navigate('/')
+      }
+  }
+  // solo canciones por ahora
+  async function handleSearch(value) {
+      setSearch(value)
+      if (value.length < 2) {
+          setSearchResults({ songs: [], albums: []})
+          return
+      }
+      setActiveNav('buscar')
+      setSearching(true)
+      try {
+          const [songs, albums] = await Promise.all([buscarCanciones(value), buscarAlbumes(value)])
+          setSearchResults({ songs, albums })
+      } finally {
+          setSearching(false)
       }
   }
 
@@ -162,13 +181,6 @@ export default function Home() {
     toast(`Calificaste "${ratingModal.name}" con ${rating}/10`)
     setRatingModal(null)
   }
-
-  const searchResults = search.length > 1
-    ? ALL_SONGS.filter(s =>
-        s.name.toLowerCase().includes(search.toLowerCase()) ||
-        s.artist.toLowerCase().includes(search.toLowerCase())
-      )
-    : []
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Buenos días' : hour < 19 ? 'Buenas tardes' : 'Buenas noches'
@@ -203,24 +215,136 @@ export default function Home() {
   function MainContent() {
     if (activePlaylist) return <PlaylistView playlist={activePlaylist} onBack={() => setActivePlaylist(null)} />
 
-    if (activeNav === 'buscar' || search.length > 1) return (
-      <div>
-        <h2 className="text-xl font-medium text-white mb-6">
-          {search ? `Resultados para "${search}"` : 'Buscar'}
-        </h2>
-        {searchResults.length > 0 ? (
-          <div className="space-y-1">
-            {searchResults.map((t, i) => (
-              <TrackRow key={t.id} track={t} index={i} onPlay={handlePlay} playing={playing} />
-            ))}
-          </div>
-        ) : search.length > 1 ? (
-          <p className="text-[#a7a7a7] text-sm">No se encontraron resultados para "{search}"</p>
-        ) : (
-          <p className="text-[#a7a7a7] text-sm">Escribe algo para buscar canciones o artistas.</p>
-        )}
-      </div>
+    if (activeNav === 'buscar') return (
+        <div>
+            <h2 className="text-xl font-medium text-white mb-6">
+                {search ? `Resultados para "${search}"` : 'Buscar'}
+            </h2>
+
+            {searching && (
+                <div className="flex items-center gap-2 text-[#a7a7a7] text-sm">
+                    <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                    Buscando...
+                </div>
+            )}
+
+            {/* Álbumes */}
+            {!searching && searchResults.albums?.length > 0 && (
+                <div className="mb-8">
+                    <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4">
+                        Álbumes
+                    </h3>
+                    <div className="grid grid-cols-4 gap-3">
+                        {searchResults.albums.map(a => (
+                            <div
+                                key={a.id}
+                                className="bg-[#181818] hover:bg-[#242424] rounded-lg p-4 cursor-pointer transition-colors group"
+                            >
+                                <div className="relative mb-3">
+                                    <img
+                                        src={a.photo}
+                                        alt={a.title}
+                                        className="w-full aspect-square rounded-md object-cover"
+                                        onError={e => {
+                                            e.target.style.display = 'none'
+                                            e.target.nextSibling.style.display = 'flex'
+                                        }}
+                                    />
+                                    {/* Fallback si la imagen falla */}
+                                    <div
+                                        className="w-full aspect-square rounded-md bg-[#282828] items-center justify-center text-4xl hidden"
+                                        style={{ display: 'none' }}
+                                    >
+                                        🎵
+                                    </div>
+                                    <button className="absolute bottom-2 right-2 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all shadow-lg">
+                                        <span className="text-white text-sm ml-0.5">▶</span>
+                                    </button>
+                                </div>
+                                <div className="text-sm font-medium text-white truncate">{a.title}</div>
+                                <div className="text-xs text-[#a7a7a7] mt-1 truncate">{a.artistName}</div>
+                                <div className="text-xs text-[#a7a7a7] mt-0.5">{a.releaseYear}</div>
+                                {a.averageScore > 0 && (
+                                    <div className="flex items-center gap-1 mt-1">
+                                        <span className="text-yellow-400 text-xs">★</span>
+                                        <span className="text-xs text-[#a7a7a7]">
+                                            {a.averageScore.toFixed(1)}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Canciones */}
+            {!searching && searchResults.songs?.length > 0 && (
+                <div>
+                    <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4">
+                        Canciones
+                    </h3>
+                    <div className="space-y-1">
+                        {searchResults.songs.map((t, i) => (
+                            <div
+                                key={t.id}
+                                onClick={() => handlePlay(t)}
+                                className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 cursor-pointer group"
+                            >
+                                <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">
+                                    {i + 1}
+                                </span>
+                                <span className="text-white text-sm w-5 text-center hidden group-hover:block">
+                                    ▶
+                                </span>
+                                <img
+                                    src={t.albumPhoto}
+                                    alt={t.albumName}
+                                    className="w-10 h-10 rounded object-cover flex-shrink-0"
+                                    onError={e => {
+                                        e.target.style.display = 'none'
+                                        e.target.nextSibling.style.display = 'flex'
+                                    }}
+                                />
+                                <div
+                                    className="w-10 h-10 rounded bg-[#282828] items-center justify-center text-lg flex-shrink-0"
+                                    style={{ display: 'none' }}
+                                >
+                                    🎵
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="text-sm text-white truncate">{t.name}</div>
+                                    <div className="text-xs text-[#a7a7a7]">{t.artistName}</div>
+                                </div>
+                                <div className="text-xs text-[#a7a7a7] hidden md:block truncate max-w-32">
+                                    {t.albumName}
+                                </div>
+                                <div className="text-xs text-[#a7a7a7] flex-shrink-0">
+                                    {Math.floor(t.duration / 60)}:{String(t.duration % 60).padStart(2, '0')}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Sin resultados */}
+            {!searching && search.length > 1 &&
+             searchResults.songs?.length === 0 &&
+             searchResults.albums?.length === 0 && (
+                <div className="text-center py-12">
+                    <div className="text-4xl mb-3">🔍</div>
+                    <p className="text-white font-medium mb-1">
+                        No se encontraron resultados
+                    </p>
+                    <p className="text-[#a7a7a7] text-sm">
+                        Intenta con otro término para "{search}"
+                    </p>
+                </div>
+            )}
+        </div>
     )
+
 
     if (activeNav === 'historial') return (
       <div>
@@ -387,7 +511,7 @@ export default function Home() {
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a7a7a7] text-sm">⌕</span>
               <input
                 value={search}
-                onChange={e => { setSearch(e.target.value); if (e.target.value) setActiveNav('buscar') }}
+                onChange={e => handleSearch(e.target.value)}
                 placeholder="¿Qué quieres escuchar?"
                 className="w-full pl-9 pr-4 py-2.5 bg-[#242424] border border-transparent rounded-full text-white text-sm placeholder-[#6a6a6a] focus:outline-none focus:border-blue-500 focus:bg-[#2a2a2a] transition"
               />

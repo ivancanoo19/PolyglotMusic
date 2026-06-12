@@ -12,18 +12,18 @@ import java.util.Optional;
 @Repository // Para crear la instancia del DAO automaticamente, utilizada por Service
 public class UsuarioDAO {
     // Conexion y obtencion de la collection para utilizar find, insertOne, etc
-    private MongoCollection<Document> collection() {
+    private MongoCollection<Document> users() {
         MongoDatabase db = MongoConnectionManager.getDatabase();
         return db.getCollection("users");
     }
 
     // Para REGISTER
     public boolean existsByEmail(String email) {
-        return collection().find(Filters.eq("email", email)).first() != null;
+        return users().find(Filters.eq("email", email)).first() != null;
     }
 
     public boolean existsByUsername(String username) {
-        return collection().find(Filters.eq("username", username)).first() != null;
+        return users().find(Filters.eq("username", username)).first() != null;
     }
 
     public Usuario save(Usuario usuario) {
@@ -33,7 +33,7 @@ public class UsuarioDAO {
                 .append("password",  usuario.getPassword())
                 .append("createdAt", usuario.getCreatedAt());
 
-        collection().insertOne(doc);
+        users().insertOne(doc);
 
         // el _id se genera automaticamente, se devuelve para la sesion en Redis
         usuario.setId(doc.getObjectId("_id").toHexString());
@@ -42,7 +42,7 @@ public class UsuarioDAO {
 
     // Para LOGIN
     public Optional<Usuario> findByEmailOrUsername(String identifier) {
-        Document doc = collection().find(
+        Document doc = users().find(
                 Filters.or(
                         Filters.eq("email",    identifier),
                         Filters.eq("username", identifier)
