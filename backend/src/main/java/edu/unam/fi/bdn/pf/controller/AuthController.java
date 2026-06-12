@@ -1,6 +1,8 @@
 package edu.unam.fi.bdn.pf.controller;
 
 import edu.unam.fi.bdn.pf.dto.AuthResponse;
+import edu.unam.fi.bdn.pf.dto.LoginRequest;
+import edu.unam.fi.bdn.pf.dto.LogoutRequest;
 import edu.unam.fi.bdn.pf.dto.RegisterRequest;
 import edu.unam.fi.bdn.pf.service.AuthService;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,27 @@ public class AuthController {
             // Por si hay un username o email repetido devuelve status code 409
             // y el JSON {"error": <error>}
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest req) {
+        try {
+            AuthResponse response = authService.login(req);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody LogoutRequest req) {
+        try {
+            authService.logout(req.getSessionId());
+            return ResponseEntity.ok(Map.of("message", "Sesión cerrada correctamente"));
+        } catch (IllegalArgumentException e) {
+            // Aunque no exista la sesión, desde el frontend igual limpiamos
+            return ResponseEntity.ok(Map.of("message", "Sesión ya expirada"));
         }
     }
 }

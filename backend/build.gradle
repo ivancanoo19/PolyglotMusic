@@ -32,6 +32,9 @@ dependencies {
 
     // MongoDB
     implementation 'org.mongodb:mongodb-driver-sync:5.2.1'
+
+    // JUnit
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {

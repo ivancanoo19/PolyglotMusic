@@ -3,6 +3,7 @@ package edu.unam.fi.bdn.pf.service;
 import edu.unam.fi.bdn.pf.dao.UsuarioDAO;
 import edu.unam.fi.bdn.pf.dao.RedisPoolManager;
 import edu.unam.fi.bdn.pf.dto.AuthResponse;
+import edu.unam.fi.bdn.pf.dto.LoginRequest;
 import edu.unam.fi.bdn.pf.dto.RegisterRequest;
 import edu.unam.fi.bdn.pf.entity.Usuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -47,9 +48,38 @@ public class AuthService {
         // Crear sesion en Redis con TTL de 2 horas
         String sessionId = UUID.randomUUID().toString();
         try (Jedis jedis = RedisPoolManager.getConnection()) {
-            jedis.setex("sesion:" + sessionId, 7200, guardado.getId());
+            jedis.setex("session:" + sessionId, 7200, guardado.getId());
         }
 
         return new AuthResponse(sessionId, guardado.getUsername(), guardado.getId());
+    }
+
+    public AuthResponse login(LoginRequest req) {
+        // Busqueda del usuario
+        Usuario usuario = usuarioDAO.findByEmailOrUsername(req.getUser())
+                .orElseThrow(() -> new IllegalArgumentException("Usuario o contraseña incorrecta"));
+
+        // Verificar contraseña
+        boolean ok = passwordEncoder.matches(req.getPassword(), usuario.getPassword());
+
+        if (!ok) {
+            throw new IllegalArgumentException("Usuario o contraseña incorrecta");
+        }
+
+        String sessionId = UUID.randomUUID().toString();
+        try (Jedis jedis = RedisPoolManager.getConnection()) {
+            jedis.setex("session:" + sessionId, 7200, usuario.getId());
+        }
+
+        return new AuthResponse(sessionId, usuario.getUsername(), usuario.getId());
+    }
+
+    public void logout(String sessionId) {
+        try (Jedis jedis = RedisPoolManager.getConnection()) {
+            Long deleted = jedis.del("session:" + sessionId);
+            if (deleted == 0) {
+                throw new IllegalArgumentException("Sesión no encontrada o ya expirada");
+            }
+        }
     }
 }
