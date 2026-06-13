@@ -56,4 +56,25 @@ public class CatalogoController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // endpoint para la búsqueda general por nombre (Regex)
+    @GetMapping("/artistas")
+    public ResponseEntity<?> buscarArtistas(@RequestParam String q) {
+        try {
+            // Se asume que el metodo buscarArtistas se agregó a CatalogoService
+            return ResponseEntity.ok(catalogoService.buscarArtistas(q));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    // Endpoint para obtener el perfil detallado del artista (con sus álbumes y Top 5)
+    @GetMapping("/artistas/{id}")
+    public ResponseEntity<?> getArtista(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok(catalogoService.getArtista(id));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

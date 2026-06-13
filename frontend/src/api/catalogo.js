@@ -17,3 +17,15 @@ export async function getAlbum(id) {
     if (!res.ok) throw new Error('Álbum no encontrado')
     return res.json()
 }
+
+export async function buscarArtistas(query) {
+    const res = await fetch(`/api/catalogo/artistas?q=${encodeURIComponent(query)}`)
+    if (!res.ok) throw new Error('Error al buscar artistas')
+    return res.json()
+}
+
+export async function getArtista(id) {
+    const res = await fetch(`/api/catalogo/artistas/${id}`)
+    if (!res.ok) throw new Error('Artista no encontrado')
+    return res.json()
+}

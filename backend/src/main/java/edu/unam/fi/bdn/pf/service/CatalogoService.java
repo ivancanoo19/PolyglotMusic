@@ -2,6 +2,7 @@ package edu.unam.fi.bdn.pf.service;
 
 import edu.unam.fi.bdn.pf.dao.CatalogoDAO;
 import edu.unam.fi.bdn.pf.entity.Album;
+import edu.unam.fi.bdn.pf.entity.Artista;
 import edu.unam.fi.bdn.pf.entity.Cancion;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,17 @@ public class CatalogoService {
         if (query == null || query.isBlank())
             throw new IllegalArgumentException("La búsqueda no puede ser vacía");
         return catalogoDAO.buscarCanciones(query.trim());
+    }
+
+    public List<Artista> buscarArtistas(String query) {
+        if (query == null || query.isBlank())
+            throw new IllegalArgumentException("La búsqueda no puede ser vacía");
+        return catalogoDAO.buscarArtistas(query.trim());
+    }
+
+    public Artista getArtista(String id) {
+        return catalogoDAO.findArtistaById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Artista no encontrado"));
     }
 
     public Cancion getCancion(String id) {

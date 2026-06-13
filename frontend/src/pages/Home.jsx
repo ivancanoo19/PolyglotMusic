@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../api/auth'
-import { buscarCanciones, buscarAlbumes, getAlbum } from '../api/catalogo'
+import { buscarCanciones, buscarAlbumes, getAlbum, buscarArtistas, getArtista } from '../api/catalogo'
 
 // ── Datos de ejemplo ─────────────────────────────────────────────────────────
 const PLAYLISTS = [
@@ -118,10 +118,11 @@ export default function Home() {
   const [isPaused, setIsPaused]         = useState(false)
   const [activePlaylist, setActivePlaylist] = useState(null)
   const [activeAlbum, setActiveAlbum] = useState(null)
+  const [activeArtist, setActiveArtist] = useState(null)
   const [ratingModal, setRatingModal]   = useState(null)
   const [rating, setRating]             = useState(0)
   const [toasts, setToasts]             = useState([])
-  const [searchResults, setSearchResults] = useState({ songs: [], albums: []})
+  const [searchResults, setSearchResults] = useState({ songs: [], albums: [], artists: [] })
   const [searching, setSearching] = useState(false)
   const nombreUsuario = localStorage.getItem('username') || 'Usuario';
   const inicialUsuario = nombreUsuario.slice(0, 2).toUpperCase();
@@ -140,18 +141,22 @@ export default function Home() {
         navigate('/')
       }
   }
-  // solo canciones por ahora
+  // canciones, albumes y artistas
   async function handleSearch(value) {
       setSearch(value)
       if (value.length < 2) {
-          setSearchResults({ songs: [], albums: []})
+          setSearchResults({ songs: [], albums: [], artists: [] })
           return
       }
       setActiveNav('buscar')
       setSearching(true)
       try {
-          const [songs, albums] = await Promise.all([buscarCanciones(value), buscarAlbumes(value)])
-          setSearchResults({ songs, albums })
+          const [songs, albums, artists] = await Promise.all([
+              buscarCanciones(value),
+              buscarAlbumes(value),
+              buscarArtistas(value)
+          ])
+          setSearchResults({ songs, albums, artists })
       } finally {
           setSearching(false)
       }
@@ -166,21 +171,42 @@ export default function Home() {
       }
   }
 
+  async function getArtistDetails(artistaId) {
+      try {
+          const datosArtista = await getArtista(artistaId);
+          setActiveArtist(datosArtista);
+      } catch (error) {
+          toast('Error al cargar el perfil del artista');
+      }
+  }
+
   function handleBack() {
-      // primer nivel: si hay un álbum abierto, simplemente se cierra.
+      // primer nivel: si hay artista abierto, se cierra
+
+      if (activeAlbum) {
+          setActiveAlbum(null);
+          return;
+      }
+
+      if (activeArtist){
+        setActiveArtist(null);
+        return;
+      }
+
+      // segundo nivel: si hay un álbum abierto, se cierra
       // esto revelará lo que estaba debajo
       if (activeAlbum) {
         setActiveAlbum(null);
         return;
       }
 
-      // segundo nivel: si hay una playlist abierta, se cierra
+      // tercer nivel: si hay una playlist abierta, se cierra
       if (activePlaylist) {
         setActivePlaylist(null);
         return;
       }
 
-      // tercer nivel: si no hay álbumes ni playlists, pero estamos en buscar o historial,
+      // cuarto nivel: si no hay álbumes ni playlists, pero estamos en buscar o historial,
       // regresamos a la pantalla de Inicio
       if (activeNav !== 'inicio') {
         setActiveNav('inicio');
@@ -249,38 +275,90 @@ export default function Home() {
     if (activePlaylist) return <PlaylistView playlist={activePlaylist} onBack={() => setActivePlaylist(null)} />
 
     if (activeAlbum) {
-        return (
-            <div>
-                {/* Cabecera del Álbum */}
-                <div className="flex items-end gap-6 mb-8">
-                    <img src={activeAlbum.photo} alt={activeAlbum.title} className="w-40 h-40 rounded-lg object-cover shadow-2xl" />
-                    <div>
-                        <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Álbum</p>
-                        <h1 className="text-4xl font-bold text-white mb-2">{activeAlbum.title}</h1>
-                        <p className="text-sm text-[#a7a7a7]">{activeAlbum.artistName} • {activeAlbum.releaseYear} • {activeAlbum.totalSongs} canciones</p>
+            return (
+                <div>
+                    {/* Cabecera del Álbum */}
+                    <div className="flex items-end gap-6 mb-8">
+                        <img src={activeAlbum.photo} alt={activeAlbum.title} className="w-40 h-40 rounded-lg object-cover shadow-2xl" />
+                        <div>
+                            <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Álbum</p>
+                            <h1 className="text-4xl font-bold text-white mb-2">{activeAlbum.title}</h1>
+                            <p className="text-sm text-[#a7a7a7]">{activeAlbum.artistName} • {activeAlbum.releaseYear} • {activeAlbum.totalSongs} canciones</p>
+                        </div>
+                    </div>
+
+                    {/* Iteración del Tracklist */}
+                    <div className="space-y-1">
+                        <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4 px-3">Pistas</h3>
+                        {activeAlbum.tracklist.map((track, i) => (
+                            <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group">
+                                <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
+                                <span className="text-white text-sm w-5 text-center hidden group-hover:block cursor-pointer">▶</span>
+                                <div className="flex-1 min-w-0">
+                                    <div className="text-sm text-white truncate">{track.songName}</div>
+                                    <div className="text-xs text-[#a7a7a7]">{activeAlbum.artistName}</div>
+                                </div>
+                                <div className="text-xs text-[#a7a7a7]">
+                                    {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
+            );
+        }
 
-                {/* Iteración del Tracklist */}
-                <div className="space-y-1">
-                    <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4 px-3">Pistas</h3>
-                    {activeAlbum.tracklist.map((track, i) => (
-                        <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group">
-                            <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
-                            <span className="text-white text-sm w-5 text-center hidden group-hover:block cursor-pointer">▶</span>
-                            <div className="flex-1 min-w-0">
-                                <div className="text-sm text-white truncate">{track.songName}</div>
-                                <div className="text-xs text-[#a7a7a7]">{activeAlbum.artistName}</div>
-                            </div>
-                            <div className="text-xs text-[#a7a7a7]">
-                                {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
-                            </div>
+    if (activeArtist) {
+            return (
+                <div>
+                    <button onClick={handleBack} className="flex items-center gap-2 text-[#a7a7a7] hover:text-white text-sm mb-6 transition-colors">
+                        ← Volver
+                    </button>
+
+                    {/* Perfil */}
+                    <div className="flex items-end gap-6 mb-8">
+                        <img src={activeArtist.photo} alt={activeArtist.name} className="w-40 h-40 rounded-full object-cover shadow-2xl" />
+                        <div>
+                            <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Perfil Verificado</p>
+                            <h1 className="text-5xl font-bold text-white mb-2">{activeArtist.name}</h1>
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Top 5 Canciones */}
+                    <div className="mb-8">
+                        <h3 className="text-base font-medium text-white mb-4 px-3">Canciones Populares</h3>
+                        <div className="space-y-1">
+                            {activeArtist.topSongs?.map((track, i) => (
+                                <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group cursor-pointer">
+                                    <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
+                                    <span className="text-white text-sm w-5 text-center hidden group-hover:block">▶</span>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="text-sm text-white truncate">{track.songName}</div>
+                                    </div>
+                                    <div className="text-xs text-[#a7a7a7]">
+                                        {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Discografía del artista */}
+                    <div>
+                        <h3 className="text-base font-medium text-white mb-4 px-3">Discografía</h3>
+                        <div className="grid grid-cols-4 gap-3">
+                            {activeArtist.albums?.map(a => (
+                                <div key={a.albumId} onClick={() => getAlbumDetails(a.albumId)} className="bg-[#181818] hover:bg-[#242424] rounded-lg p-4 cursor-pointer transition-colors group">
+                                    <img src={a.albumPhoto} className="w-full aspect-square rounded-md object-cover mb-3" />
+                                    <div className="text-sm font-medium text-white truncate">{a.albumTitle}</div>
+                                    <div className="text-xs text-[#a7a7a7] mt-1">{a.albumYear}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        );
-    }
+            )
+        }
 
     if (activeNav === 'buscar') return (
         <div>
@@ -294,6 +372,22 @@ export default function Home() {
                     Buscando...
                 </div>
             )}
+
+            {/* Artistas */}
+                        {!searching && searchResults.artists?.length > 0 && (
+                                        <div className="mb-8">
+                                            <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4">Artistas</h3>
+                                            <div className="grid grid-cols-4 gap-3">
+                                                {searchResults.artists.slice(0, 4).map(artista => (
+                                                    <div key={artista.id} onClick={() => getArtistDetails(artista.id)} className="bg-[#181818] hover:bg-[#242424] rounded-lg p-4 cursor-pointer transition-colors flex flex-col items-center text-center group">
+                                                        <img src={artista.photo} className="w-24 h-24 rounded-full object-cover mb-3 shadow-lg" />
+                                                        <div className="text-sm font-medium text-white truncate w-full">{artista.name}</div>
+                                                        <div className="text-xs text-[#a7a7a7] mt-1">Artista</div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                        )}
 
             {/* Álbumes */}
             {!searching && searchResults.albums?.length > 0 && (
