@@ -5,6 +5,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import edu.unam.fi.bdn.pf.entity.Usuario;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -61,5 +62,13 @@ public class UsuarioDAO {
                 .password(doc.getString("password"))
                 .createdAt(doc.getLong("createdAt"))
                 .build();
+    }
+
+    public Optional<Usuario> getUsuarioById(String userId) {
+        Document doc = users().find(
+                Filters.eq("_id", new ObjectId(userId))
+        ).first();
+        if (doc == null) return Optional.empty();
+        return Optional.of(docToUsuario(doc));
     }
 }
