@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../api/auth'
-import { buscarCanciones, buscarAlbumes } from '../api/catalogo'
+import { buscarCanciones, buscarAlbumes, getAlbum } from '../api/catalogo'
 
 // ── Datos de ejemplo ─────────────────────────────────────────────────────────
-const USER = { name: 'Eduardo', initials: 'EG' }
-
 const PLAYLISTS = [
   { id: 1, name: 'Canciones que me gustan', count: 24, emoji: '❤️', color: '#1a73e8' },
   { id: 2, name: 'Rock clásico',            count: 18, emoji: '🎸', color: '#185fa5' },
@@ -119,11 +117,14 @@ export default function Home() {
   const [playing, setPlaying]           = useState(TOP_SONGS[0])
   const [isPaused, setIsPaused]         = useState(false)
   const [activePlaylist, setActivePlaylist] = useState(null)
+  const [activeAlbum, setActiveAlbum] = useState(null)
   const [ratingModal, setRatingModal]   = useState(null)
   const [rating, setRating]             = useState(0)
   const [toasts, setToasts]             = useState([])
   const [searchResults, setSearchResults] = useState({ songs: [], albums: []})
   const [searching, setSearching] = useState(false)
+  const nombreUsuario = localStorage.getItem('username') || 'Usuario';
+  const inicialUsuario = nombreUsuario.slice(0, 2).toUpperCase();
 
   const navigate = useNavigate();
 
@@ -155,6 +156,38 @@ export default function Home() {
           setSearching(false)
       }
   }
+
+  async function getAlbumDetails(albumId) {
+      try {
+          const datosAlbum = await getAlbum(albumId); // se consume la API existente
+          setActiveAlbum(datosAlbum);                 // se guarda el JSON de MongoDB en la memoria de React
+      } catch (error) {
+          toast('Error al cargar los detalles del álbum');
+      }
+  }
+
+  function handleBack() {
+      // primer nivel: si hay un álbum abierto, simplemente se cierra.
+      // esto revelará lo que estaba debajo
+      if (activeAlbum) {
+        setActiveAlbum(null);
+        return;
+      }
+
+      // segundo nivel: si hay una playlist abierta, se cierra
+      if (activePlaylist) {
+        setActivePlaylist(null);
+        return;
+      }
+
+      // tercer nivel: si no hay álbumes ni playlists, pero estamos en buscar o historial,
+      // regresamos a la pantalla de Inicio
+      if (activeNav !== 'inicio') {
+        setActiveNav('inicio');
+        setSearch(''); // Opcional: limpia la barra de texto
+        setSearchResults({ songs: [], albums: [] });
+      }
+    }
 
   function toast(msg) {
     const id = Date.now()
@@ -199,7 +232,7 @@ export default function Home() {
           <div>
             <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Lista</p>
             <h1 className="text-3xl font-medium text-white mb-2">{playlist.name}</h1>
-            <p className="text-sm text-[#a7a7a7]">{USER.name} • {playlist.count} canciones</p>
+            <p className="text-sm text-[#a7a7a7]">{nombreUsuario} • {playlist.count} canciones</p>
           </div>
         </div>
         <div className="space-y-1">
@@ -214,6 +247,40 @@ export default function Home() {
   // ── Contenido principal ─────────────────────────────────────────────────────
   function MainContent() {
     if (activePlaylist) return <PlaylistView playlist={activePlaylist} onBack={() => setActivePlaylist(null)} />
+
+    if (activeAlbum) {
+        return (
+            <div>
+                {/* Cabecera del Álbum */}
+                <div className="flex items-end gap-6 mb-8">
+                    <img src={activeAlbum.photo} alt={activeAlbum.title} className="w-40 h-40 rounded-lg object-cover shadow-2xl" />
+                    <div>
+                        <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Álbum</p>
+                        <h1 className="text-4xl font-bold text-white mb-2">{activeAlbum.title}</h1>
+                        <p className="text-sm text-[#a7a7a7]">{activeAlbum.artistName} • {activeAlbum.releaseYear} • {activeAlbum.totalSongs} canciones</p>
+                    </div>
+                </div>
+
+                {/* Iteración del Tracklist */}
+                <div className="space-y-1">
+                    <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4 px-3">Pistas</h3>
+                    {activeAlbum.tracklist.map((track, i) => (
+                        <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group">
+                            <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
+                            <span className="text-white text-sm w-5 text-center hidden group-hover:block cursor-pointer">▶</span>
+                            <div className="flex-1 min-w-0">
+                                <div className="text-sm text-white truncate">{track.songName}</div>
+                                <div className="text-xs text-[#a7a7a7]">{activeAlbum.artistName}</div>
+                            </div>
+                            <div className="text-xs text-[#a7a7a7]">
+                                {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     if (activeNav === 'buscar') return (
         <div>
@@ -238,6 +305,7 @@ export default function Home() {
                         {searchResults.albums.map(a => (
                             <div
                                 key={a.id}
+                                onClick={() => getAlbumDetails(a.id)}
                                 className="bg-[#181818] hover:bg-[#242424] rounded-lg p-4 cursor-pointer transition-colors group"
                             >
                                 <div className="relative mb-3">
@@ -389,7 +457,7 @@ export default function Home() {
     // Inicio (default)
     return (
       <div>
-        <h2 className="text-xl font-medium text-white mb-5">{greeting}, {USER.name} 👋</h2>
+        <h2 className="text-xl font-medium text-white mb-5">{greeting}, {nombreUsuario} 👋</h2>
 
         {/* Escuchado recientemente */}
         <div className="flex items-center justify-between mb-3">
@@ -504,8 +572,19 @@ export default function Home() {
           {/* Topbar */}
           <div className="sticky top-0 z-10 bg-[#121212] px-6 py-4 flex items-center gap-4">
             <div className="flex gap-2">
-              <button className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white hover:bg-white/10 transition-colors text-sm">‹</button>
-              <button className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white hover:bg-white/10 transition-colors text-sm">›</button>
+                {/* Flecha Izquierda */}
+                <button
+                    onClick={handleBack}
+                    className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white hover:bg-white/10 transition-colors text-sm"
+                >
+                    ‹
+                </button>
+                {/* Flecha Derecha (de momento no) */}
+                <button
+                    className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white transition-colors text-sm opacity-30 cursor-not-allowed"
+                >
+                    ›
+                </button>
             </div>
             <div className="flex-1 max-w-xs relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a7a7a7] text-sm">⌕</span>
@@ -518,7 +597,7 @@ export default function Home() {
             </div>
             <div className="ml-auto flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-xs font-medium text-white cursor-pointer">
-                {USER.initials}
+                {inicialUsuario}
               </div>
             </div>
           </div>
