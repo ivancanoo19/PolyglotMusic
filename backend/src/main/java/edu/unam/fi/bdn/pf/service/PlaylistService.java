@@ -67,4 +67,13 @@ public class PlaylistService {
             throw new IllegalArgumentException("No se pudo eliminar la canción. Verifica que la playlist te pertenezca.");
         }
     }
+
+    public void eliminarPlaylist(String sessionId, String playlistId) {
+        String userId = obtenerUserID(sessionId);
+        boolean ok = playlistDAO.eliminarPlaylist(playlistId, userId);
+
+        if (!ok) {
+            throw new IllegalArgumentException("No se pudo eliminar la playlist. Verifica que te pertenezca.");
+        }
+    }
 }

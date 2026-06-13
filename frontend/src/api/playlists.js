@@ -1,4 +1,4 @@
-// Función para insertar el token en cada petición
+// para insertar el token en cada petición
 const getHeaders = () => ({
     'Content-Type': 'application/json',
     'X-Session-Id': localStorage.getItem('sessionId')
@@ -36,5 +36,14 @@ export async function eliminarCancionDePlaylist(playlistId, songId, duration) {
         headers: getHeaders()
     });
     if (!res.ok) throw new Error('Error al eliminar la canción');
+    return res.json();
+}
+
+export async function borrarPlaylistDocumento(playlistId) {
+    const res = await fetch(`/api/playlists/${playlistId}`, {
+        method: 'DELETE',
+        headers: getHeaders()
+    });
+    if (!res.ok) throw new Error('Error al eliminar la playlist');
     return res.json();
 }

@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../api/auth'
-import { obtenerMisPlaylists, crearPlaylist, agregarCancionAPlaylist, eliminarCancionDePlaylist } from '../api/playlists'
+import { obtenerMisPlaylists, crearPlaylist, agregarCancionAPlaylist, eliminarCancionDePlaylist , borrarPlaylistDocumento }
+    from '../api/playlists'
 import { buscarCanciones, buscarAlbumes, getAlbum, buscarArtistas, getArtista } from '../api/catalogo'
 
 // ── Datos de ejemplo ─────────────────────────────────────────────────────────
@@ -233,6 +234,25 @@ export default function Home() {
       }
   }
 
+
+  async function handleBorrarPlaylist(playlistId) {
+      const confirmar = window.confirm("Estás seguro de que deseas eliminar esta playlist por completo?");
+      if (!confirmar) return;
+      try {
+          await borrarPlaylistDocumento(playlistId);
+          toast('Playlist eliminada definitivamente');
+
+          // limpiamos la vista actual y regresamos a inicio
+          setActivePlaylist(null);
+          setActiveNav('inicio');
+
+          // recargamos el panel lateral
+          cargarPlaylists();
+      } catch (error) {
+          toast('Error al eliminar la playlist');
+      }
+  }
+
   // canciones, albumes y artistas
   async function handleSearch(value) {
       setSearch(value)
@@ -352,8 +372,17 @@ export default function Home() {
             </div>
             <div>
               <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Lista</p>
-              <h1 className="text-5xl font-bold text-white mb-2">{playlist.name}</h1>
-              {/* Se corrige el mapeo hacia totalSongs */}
+              <div className="flex items-center gap-4 mb-2">
+                  <h1 className="text-5xl font-bold text-white">{playlist.name}</h1>
+                  <button
+                      onClick={() => handleBorrarPlaylist(playlist.id)}
+                      className="w-10 h-10 rounded-full bg-red-500/10 text-red-500 hover:bg-red-500/20 flex items-center justify-center transition-colors shadow-md mt-4"
+                      title="Eliminar Playlist completa"
+                  >
+                      🗑️
+                  </button>
+              </div>
+              {/* mapeo hacia totalSongs */}
               <p className="text-sm text-[#a7a7a7]">{nombreUsuario} • {playlist.totalSongs} canciones</p>
             </div>
           </div>

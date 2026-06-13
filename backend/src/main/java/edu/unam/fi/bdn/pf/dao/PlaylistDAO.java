@@ -62,9 +62,13 @@ public class PlaylistDAO {
     // transaccion de un solo documento
     public boolean agregarCancion(String playlistId, String userId, Playlist.PlaylistItem cancion) {
         // se define un filtro con doble validación, por objectID y por user_id
+        // se debe agregar el operador de negación lógica Filters.ne (Not Equal) sobre la propiedad anidada
+        // Esto asegura que se rechace la actualización si el id de la canción ya existe dentro del arreglo
+        // es decir, evita duplicados en la misma transaccion
         Bson filtro = Filters.and(
                 Filters.eq("_id", new ObjectId(playlistId)),
-                Filters.eq("user_id", userId)
+                Filters.eq("user_id", userId),
+                Filters.ne("songs.song_id", cancion.getSongId())
         );
 
         // preparamos el sub-documento JSON que entrará al arreglo para agregar una canción a la playlist
@@ -94,9 +98,13 @@ public class PlaylistDAO {
 
     // transaccion de un solo documento pero ahora para borrar
     public boolean eliminarCancion(String playlistId, String userId, String songId, int duration) {
+        // mecanismo inverso utilizando Filters.eq (Equal).
+        // el delete solo se ejecutará en si el arreglo contiene actualmente dicha canción, evita que se sobrepase
+        // o inconsistencias cuando se vacíe la playlist
         Bson filtro = Filters.and(
                 Filters.eq("_id", new ObjectId(playlistId)),
-                Filters.eq("user_id", userId)
+                Filters.eq("user_id", userId),
+                Filters.eq("songs.song_id", songId)
         );
 
         // ahora la operacion es un pull: se saca el elemento donde song_id sea igual al songId recibido
@@ -110,6 +118,15 @@ public class PlaylistDAO {
         Bson transaccion = Updates.combine(operadorPull, operadorDecTotal, operadorDecDuracion);
 
         return playlists().updateOne(filtro, transaccion).getModifiedCount() > 0;
+    }
+
+    public boolean eliminarPlaylist(String playlistId, String userId) {
+        Bson filtro = Filters.and(
+                Filters.eq("_id", new ObjectId(playlistId)),
+                Filters.eq("user_id", userId)
+        );
+
+        return playlists().deleteOne(filtro).getDeletedCount() > 0;
     }
 
     // para construir un objeto playlist

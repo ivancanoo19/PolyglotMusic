@@ -74,4 +74,19 @@ public class PlaylistController {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
+
+    // endpoint para eliminar una playlist completa -> DELETE /api/playlists/{id}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarPlaylist(
+            @RequestHeader("X-Session-Id") String sessionId,
+            @PathVariable String id) {
+        try {
+            playlistService.eliminarPlaylist(sessionId, id);
+            return ResponseEntity.ok(Map.of("mensaje", "Playlist eliminada exitosamente"));
+        } catch (SecurityException e) {
+            return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
 }
