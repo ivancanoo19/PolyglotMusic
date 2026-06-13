@@ -58,4 +58,13 @@ public class PlaylistService {
             throw new IllegalArgumentException("No se pudo agregar la canción. La playlist no existe o no es del user");
 
     }
+
+    public void eliminarCancion(String sessionId, String playlistId, String songId, int duration) {
+        String userId = obtenerUserID(sessionId);
+        boolean ok = playlistDAO.eliminarCancion(playlistId, userId, songId, duration);
+
+        if (!ok) {
+            throw new IllegalArgumentException("No se pudo eliminar la canción. Verifica que la playlist te pertenezca.");
+        }
+    }
 }

@@ -59,7 +59,7 @@ public class PlaylistDAO {
         return resultado;
     }
 
-    // transaccion atómica de un solo documento
+    // transaccion de un solo documento
     public boolean agregarCancion(String playlistId, String userId, Playlist.PlaylistItem cancion) {
         // se define un filtro con doble validación, por objectID y por user_id
         Bson filtro = Filters.and(
@@ -90,6 +90,26 @@ public class PlaylistDAO {
 
         // updateOne devuelve el numero de documentos alterados, si es mayor a cero, fue exitoso
         return playlists().updateOne(filtro, update).getModifiedCount() > 0;
+    }
+
+    // transaccion de un solo documento pero ahora para borrar
+    public boolean eliminarCancion(String playlistId, String userId, String songId, int duration) {
+        Bson filtro = Filters.and(
+                Filters.eq("_id", new ObjectId(playlistId)),
+                Filters.eq("user_id", userId)
+        );
+
+        // ahora la operacion es un pull: se saca el elemento donde song_id sea igual al songId recibido
+        Bson operadorPull = Updates.pull("songs", new Document("song_id", songId));
+
+        // se restan valores del total y la duracion
+        Bson operadorDecTotal = Updates.inc("total_songs", -1);
+        Bson operadorDecDuracion = Updates.inc("playlist_duration", -duration);
+
+        // se combinan y ejecutan
+        Bson transaccion = Updates.combine(operadorPull, operadorDecTotal, operadorDecDuracion);
+
+        return playlists().updateOne(filtro, transaccion).getModifiedCount() > 0;
     }
 
     // para construir un objeto playlist

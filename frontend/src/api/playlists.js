@@ -29,3 +29,12 @@ export async function agregarCancionAPlaylist(playlistId, cancion) {
     if (!res.ok) throw new Error('Error al agregar la canción');
     return res.json();
 }
+
+export async function eliminarCancionDePlaylist(playlistId, songId, duration) {
+    const res = await fetch(`/api/playlists/${playlistId}/canciones/${songId}?duration=${duration}`, {
+        method: 'DELETE',
+        headers: getHeaders()
+    });
+    if (!res.ok) throw new Error('Error al eliminar la canción');
+    return res.json();
+}

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../api/auth'
-import { obtenerMisPlaylists, crearPlaylist, agregarCancionAPlaylist } from '../api/playlists'
+import { obtenerMisPlaylists, crearPlaylist, agregarCancionAPlaylist, eliminarCancionDePlaylist } from '../api/playlists'
 import { buscarCanciones, buscarAlbumes, getAlbum, buscarArtistas, getArtista } from '../api/catalogo'
 
 // ── Datos de ejemplo ─────────────────────────────────────────────────────────
@@ -214,6 +214,25 @@ export default function Home() {
           toast('Error al agregar la canción');
         }
     }
+
+  async function handleEliminarCancion(playlistId, track) {
+      try {
+         await eliminarCancionDePlaylist(playlistId, track.songId, track.duration);
+         toast('Canción eliminada');
+
+         // recargamos todas las playlists para actualizar la barra lateral
+         const datosActualizados = await obtenerMisPlaylists();
+         setMisPlaylists(datosActualizados);
+
+         // actualizamos la vista de la playlist actual para que la canción desaparezca al instante
+         const playlistActualizada = datosActualizados.find(p => p.id === playlistId);
+         setActivePlaylist(playlistActualizada);
+
+      } catch (error) {
+          toast('Error al eliminar la canción');
+      }
+  }
+
   // canciones, albumes y artistas
   async function handleSearch(value) {
       setSearch(value)
@@ -357,6 +376,18 @@ export default function Home() {
                     <div className="text-xs text-[#a7a7a7]">
                       {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
                     </div>
+
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleEliminarCancion(playlist.id, track);
+                        }}
+                        className="text-[#a7a7a7] hover:text-red-400 ml-4 flex-shrink-0 hidden group-hover:block"
+                        title="Eliminar de la Playlist"
+                    >
+                         ✕
+                    </button>
+
                   </div>
                 ))
             )}
@@ -397,11 +428,11 @@ export default function Home() {
                                     {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
                                 </div>
 
-                                {/* NUEVO BOTÓN ➕ PARA EL ÁLBUM */}
+                                {/* BOTÓN PARA EL ÁLBUM */}
                                 <button
                                    onClick={(e) => {
                                       e.stopPropagation();
-                                      // Se fusiona la canción con la foto del álbum padre
+                                      // aqui como una cancion dentro de un album no tiene foto, insertamos la del album directamente
                                       setSongToAdd({ ...track, songPhoto: activeAlbum.photo });
                                    }}
                                    className="text-[#a7a7a7] hover:text-white ml-4 flex-shrink-0 hidden group-hover:block"
@@ -450,7 +481,6 @@ export default function Home() {
                                     <button
                                         onClick={(e) => {
                                            e.stopPropagation();
-                                           // Se fusiona la canción con la foto del artista
                                            setSongToAdd({ ...track, songPhoto: activeArtist.photo });
                                         }}
                                         className="text-[#a7a7a7] hover:text-white ml-4 flex-shrink-0 hidden group-hover:block"
@@ -532,7 +562,7 @@ export default function Home() {
                                             e.target.nextSibling.style.display = 'flex'
                                         }}
                                     />
-                                    {/* Fallback si la imagen falla */}
+                                    {/* fallback si la imagen falla */}
                                     <div
                                         className="w-full aspect-square rounded-md bg-[#282828] items-center justify-center text-4xl hidden"
                                         style={{ display: 'none' }}
