@@ -22,8 +22,8 @@ public class Playlist {
     @Builder
     public static class PlaylistItem {
         private String songId;
-        private String songName;
+        private String name;
         private int duration;
-        private String songPhoto;
+        private String albumPhoto;
     }
 }

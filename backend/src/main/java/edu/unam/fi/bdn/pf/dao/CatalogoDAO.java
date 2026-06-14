@@ -119,7 +119,7 @@ public class CatalogoDAO {
     }
 
     // Para el rating (ahorita en mongo pero deberia ser cassandra, solo es test ahorita)
-    public void agregarCalificacionAlbum(String albumId, int valor) {
+    /*public void agregarCalificacionAlbum(String albumId, int valor) {
         albums().updateOne(
                 Filters.eq("_id", new ObjectId(albumId)),
                 new Document("$inc", new Document("rating_total", valor).append("rating_count", 1))
@@ -135,6 +135,24 @@ public class CatalogoDAO {
         int count = doc.getInteger("rating_count", 0);
         if (count == 0) return Optional.of(0.0);
         return Optional.of((double) total / count);
+    }*/
+
+    public double agregarCalificacionYObtenerPromedio(String albumId, int valor) {
+        // $inc acumula total y conteo en el documento del álbum
+        albums().updateOne(
+                Filters.eq("_id", new ObjectId(albumId)),
+                new Document("$inc", new Document("rating_total", valor)
+                        .append("rating_count", 1))
+        );
+        // Recalculamos el promedio con los nuevos valores
+        Document doc = albums().find(
+                Filters.eq("_id", new ObjectId(albumId))
+        ).first();
+
+        if (doc == null) return 0.0;
+        int total = doc.getInteger("rating_total", 0);
+        int count = doc.getInteger("rating_count", 0);
+        return count > 0 ? (double) total / count : 0.0;
     }
 
     // Para canciones

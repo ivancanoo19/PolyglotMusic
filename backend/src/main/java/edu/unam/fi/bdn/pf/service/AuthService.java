@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import redis.clients.jedis.Jedis;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Service // Para crear la instancia del Service automaticamente para el Controller
@@ -35,7 +36,7 @@ public class AuthService {
                 .email(req.getEmail())
                 .username(req.getUsername())
                 .password(passwordEncoder.encode(req.getPassword()))
-                .createdAt(System.currentTimeMillis())
+                .createdAt(new Date())
                 .build();
 
         // Para el login lo dejo aqui
