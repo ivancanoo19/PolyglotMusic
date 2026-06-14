@@ -23,7 +23,6 @@ public class ActividadController {
     public ResponseEntity<?> reproducir(@RequestBody ReproduccionRequest req) {
         try {
             actividadService.reproducir(req);
-            System.out.println(req);
             return ResponseEntity.ok(Map.of("ok", true));
         } catch (Exception e) {
             return ResponseEntity.internalServerError()

@@ -9,10 +9,10 @@ USE polyglotmusic;
 // y id de la cancion
 DROP TABLE IF EXISTS ratings_by_user;
 CREATE TABLE ratings_by_user (
-    user_id UUID,
+    user_id TEXT,
     rating INT,
     rated_at TIMESTAMP,
-    song_id UUID,
+    song_id TEXT,
     PRIMARY KEY (user_id, rating, rated_at, song_id)
 ) WITH CLUSTERING ORDER BY (rating DESC, rated_at DESC);
 
@@ -20,7 +20,7 @@ CREATE TABLE ratings_by_user (
 // almacenarlo en redis en un zset
 DROP TABLE IF EXISTS song_rating_stats;
 CREATE TABLE song_rating_stats (
-    song_id UUID PRIMARY KEY,
+    song_id TEXT PRIMARY KEY,
     total_ratings COUNTER,
     rating_sum COUNTER
 );
@@ -28,9 +28,9 @@ CREATE TABLE song_rating_stats (
 // para las escuchadas recientemente de cada usuario
 DROP TABLE IF EXISTS listening_history_by_user;
 CREATE TABLE listening_history_by_user (
-    user_id UUID,
+    user_id TEXT,
     listened_at TIMESTAMP,
-    song_id UUID,
+    song_id TEXT,
     PRIMARY KEY (user_id, listened_at)
 ) WITH CLUSTERING ORDER BY (listened_at DESC);
 
