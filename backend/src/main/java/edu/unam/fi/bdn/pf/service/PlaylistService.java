@@ -1,12 +1,11 @@
 package edu.unam.fi.bdn.pf.service;
 
 import edu.unam.fi.bdn.pf.dao.PlaylistDAO;
-import edu.unam.fi.bdn.pf.dao.RedisPoolManager;
+import edu.unam.fi.bdn.pf.dao.SessionDAO;
 import edu.unam.fi.bdn.pf.dao.UsuarioDAO;
 import edu.unam.fi.bdn.pf.entity.Playlist;
 import edu.unam.fi.bdn.pf.entity.Usuario;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
 
 import java.util.List;
 
@@ -14,23 +13,25 @@ import java.util.List;
 public class PlaylistService {
     private final PlaylistDAO playlistDAO;
     private final UsuarioDAO usuarioDAO;
+    private final SessionDAO sessionDAO;
 
-    public PlaylistService(PlaylistDAO playlistDAO, UsuarioDAO usuarioDAO) {
+    public PlaylistService(PlaylistDAO playlistDAO, UsuarioDAO usuarioDAO, SessionDAO sessionDAO) {
         this.playlistDAO = playlistDAO;
         this.usuarioDAO = usuarioDAO;
+        this.sessionDAO = sessionDAO;
     }
 
     private String obtenerUserID(String sessionId) {
         if (sessionId == null || sessionId.isBlank())
             throw new IllegalArgumentException("No se pudo obtener el token de la sesión");
 
-        try (Jedis jedis = RedisPoolManager.getConnection()) {
-            String userId = jedis.get("session:" + sessionId);
-            if (userId == null)
-                throw new SecurityException("Sesión inválida o expirada");
+        // el servicio delega la consulta al DAO en donde verificamos si la sesión es existente
+        String userId = sessionDAO.getUserIdBySession(sessionId);
 
-            return userId; // solo se retorna si Redis confirma que existe
-        }
+        if (userId == null)
+            throw new SecurityException("Sesión inválida o expirada");
+
+        return userId;
     }
 
     public Playlist crearPlaylist(String sessionId, String name) {
