@@ -51,6 +51,7 @@ public class CatalogoController {
     @GetMapping("/canciones/{id}")
     public ResponseEntity<?> getCancion(@PathVariable String id) {
         try {
+            System.out.println(id);
             return ResponseEntity.ok(catalogoService.getCancion(id));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

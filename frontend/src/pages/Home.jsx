@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { logout } from '../api/auth'
 import { obtenerMisPlaylists, crearPlaylist, agregarCancionAPlaylist, eliminarCancionDePlaylist, borrarPlaylistDocumento }
     from '../api/playlists'
-import { buscarCanciones, buscarAlbumes, getAlbum, buscarArtistas, getArtista } from '../api/catalogo'
+import { buscarCanciones, buscarAlbumes, getAlbum, buscarArtistas, getArtista, getCancion } from '../api/catalogo'
 import { reproducirCancion, calificarCancion, obtenerHistorial } from '../api/actividad'
 
 const RECENT = [
@@ -384,14 +384,25 @@ export default function Home() {
 
   async function handlePlay(track) {
       if (playing?.id === track.id) { setIsPaused(p => !p); return }
-      setPlaying(track)
-      console.log(playing)
+      const song = await getCancion(track.songId)
+      setPlaying(song)
       setIsPaused(false)
-      toast(`▶ Reproduciendo: ${track.name || track.songName}`)
-
+      toast(`▶ Reproduciendo: ${song.name || song.songName}`)
       const usuarioId = localStorage.getItem('userId')
-      if (usuarioId && track.id) {
-          reproducirCancion(usuarioId, track.id).catch(console.error)
+      if (usuarioId && song.id) {
+          reproducirCancion(usuarioId, song.id).catch(console.error)
+      }
+  }
+
+  async function handlePlaySearch(track) {
+      if (playing?.id === track.id) { setIsPaused(p => !p); return }
+      const song = await getCancion(track.id)
+      setPlaying(song)
+      setIsPaused(false)
+      toast(`▶ Reproduciendo: ${song.name || song.songName}`)
+      const usuarioId = localStorage.getItem('userId')
+      if (usuarioId && song.id) {
+          reproducirCancion(usuarioId, song.id).catch(console.error)
       }
   }
 
@@ -487,7 +498,9 @@ export default function Home() {
                 <div className="space-y-1">
                     <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4 px-3">Pistas</h3>
                     {activeAlbum.tracklist.map((track, i) => (
-                        <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group">
+                        <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group"
+                            onClick={() => handlePlay(track)}
+                        >
                             <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
                             <span className="text-white text-sm w-5 text-center hidden group-hover:block cursor-pointer">▶</span>
                             <div className="flex-1 min-w-0">
@@ -538,7 +551,9 @@ export default function Home() {
                     <h3 className="text-base font-medium text-white mb-4 px-3">Canciones Populares</h3>
                     <div className="space-y-1">
                         {activeArtist.topSongs?.map((track, i) => (
-                            <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group cursor-pointer">
+                            <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group cursor-pointer"
+                                onClick={() => handlePlay(track)}
+                            >
                                 <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
                                 <span className="text-white text-sm w-5 text-center hidden group-hover:block">▶</span>
                                 <div className="flex-1 min-w-0">
@@ -670,7 +685,7 @@ export default function Home() {
                         {searchResults.songs.map((t, i) => (
                             <div
                                 key={t.id}
-                                onClick={() => handlePlay(t)}
+                                onClick={() => handlePlaySearch(t)}
                                 className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 cursor-pointer group"
                             >
                                 <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">

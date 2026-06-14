@@ -28,3 +28,9 @@ export async function getArtista(id) {
     if (!res.ok) throw new Error('Artista no encontrado')
     return res.json()
 }
+
+export async function getCancion(id) {
+    const res = await fetch(`/api/catalogo/canciones/${id}`)
+    if (!res.ok) throw new Error('Canción no encontrada')
+    return res.json()
+}
