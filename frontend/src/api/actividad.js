@@ -9,10 +9,11 @@ export async function reproducirCancion(usuarioId, cancionId) {
 }
 
 export async function calificarCancion(usuarioId, cancionId, valor) {
+    console.log(valor)
     const res = await fetch('/api/actividad/calificar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ usuarioId, cancionId, valor })
+        body: JSON.stringify({ usuarioId, cancionId, calificacion: valor })
     })
     if (!res.ok) throw new Error('Error al calificar')
 }

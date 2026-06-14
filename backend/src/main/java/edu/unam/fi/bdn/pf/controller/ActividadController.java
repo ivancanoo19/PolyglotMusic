@@ -32,6 +32,8 @@ public class ActividadController {
 
     @PostMapping("/calificar")
     public ResponseEntity<?> calificar(@RequestBody CalificacionRequest req) {
+        System.out.println("AQUIIIII");
+        System.out.println(req);
         try {
             actividadService.calificar(req);
             return ResponseEntity.ok(Map.of("ok", true));
