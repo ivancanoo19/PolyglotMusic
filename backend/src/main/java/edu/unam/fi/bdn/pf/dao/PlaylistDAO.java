@@ -73,9 +73,9 @@ public class PlaylistDAO {
 
         // preparamos el sub-documento JSON que entrará al arreglo para agregar una canción a la playlist
         Document cancionDoc = new Document("song_id", cancion.getSongId())
-                .append("song_name", cancion.getSongName())
+                .append("name", cancion.getName())
                 .append("duration", cancion.getDuration())
-                .append("song_photo", cancion.getSongPhoto());
+                .append("album_photo", cancion.getAlbumPhoto());
 
         // declaramos los 3 updates que se hacen sobre el mismo documento de playlist
         // añade la cancion al arreglo de canciones de la playlist
@@ -138,9 +138,9 @@ public class PlaylistDAO {
             for (Document s : rawSongs) {
                 songs.add(Playlist.PlaylistItem.builder()
                         .songId(s.getString("song_id"))
-                        .songName(s.getString("song_name"))
+                        .name(s.getString("name"))
                         .duration(s.getInteger("duration", 0))
-                        .songPhoto(s.getString("song_photo"))
+                        .albumPhoto(s.getString("album_photo"))
                         .build());
             }
         }

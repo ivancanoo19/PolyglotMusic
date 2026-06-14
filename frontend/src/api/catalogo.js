@@ -7,7 +7,6 @@ export async function buscarAlbumes(query) {
 
 export async function buscarCanciones(query) {
     const res = await fetch(`/api/catalogo/canciones?q=${encodeURIComponent(query)}`)
-    console.log(res)
     if (!res.ok) throw new Error('Error al buscar canciones')
     return res.json()
 }

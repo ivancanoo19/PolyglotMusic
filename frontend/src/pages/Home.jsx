@@ -2,18 +2,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../api/auth'
-import { obtenerMisPlaylists, crearPlaylist, agregarCancionAPlaylist, eliminarCancionDePlaylist , borrarPlaylistDocumento }
+import { obtenerMisPlaylists, crearPlaylist, agregarCancionAPlaylist, eliminarCancionDePlaylist, borrarPlaylistDocumento }
     from '../api/playlists'
 import { buscarCanciones, buscarAlbumes, getAlbum, buscarArtistas, getArtista } from '../api/catalogo'
-
-// ── Datos de ejemplo ─────────────────────────────────────────────────────────
-//const PLAYLISTS = [
-//  { id: 1, name: 'Canciones que me gustan', count: 24, emoji: '❤️', color: '#1a73e8' },
-//  { id: 2, name: 'Rock clásico',            count: 18, emoji: '🎸', color: '#185fa5' },
-//  { id: 3, name: 'Lo-fi para estudiar',     count: 31, emoji: '🎹', color: '#0f6e56' },
-//  { id: 4, name: 'Jazz nocturno',           count: 12, emoji: '🎺', color: '#854f0b' },
-//  { id: 5, name: 'Viaje en carretera',      count: 45, emoji: '🚗', color: '#993556' },
-//]
+import { reproducirCancion, calificarCancion, obtenerHistorial } from '../api/actividad'
 
 const RECENT = [
   { id: 1, name: 'Back in Black',    artist: 'AC/DC',        emoji: '🎸', bg: '#0d2a4a' },
@@ -44,7 +36,7 @@ const ALL_SONGS = [...TOP_SONGS,
   { id: 9,  name: 'Comfortably Numb',  artist: 'Pink Floyd',    album: 'The Wall',          duration: '6:23', emoji: '🎹', bg: '#1a2a0a', plays: 8700 },
   { id: 10, name: 'Black',             artist: 'Pearl Jam',     album: 'Ten',               duration: '5:43', emoji: '🎵', bg: '#2a0a1a', plays: 7600 },
 ]
-// ─────────────────────────────────────────────────────────────────────────────
+
 
 function Logo() {
   return (
@@ -121,37 +113,103 @@ function PlaylistCover({ songs }) {
     }
     // Escenario 2: de 1 a 3 canciones Usa la primera foto para cubrir todo
     if (songs.length < 4) {
-        return <img src={songs[0].songPhoto} className="w-full h-full object-cover" />;
+        return <img src={songs[0].albumPhoto} className="w-full h-full object-cover" />;
     }
     // Escenario 3: 4 o más canciones, genera la cuadrícula 2x2
     return (
         <div className="grid grid-cols-2 w-full h-full">
-            <img src={songs[0].songPhoto} className="w-full h-full object-cover" />
-            <img src={songs[1].songPhoto} className="w-full h-full object-cover" />
-            <img src={songs[2].songPhoto} className="w-full h-full object-cover" />
-            <img src={songs[3].songPhoto} className="w-full h-full object-cover" />
+            <img src={songs[0].albumPhoto} className="w-full h-full object-cover" />
+            <img src={songs[1].albumPhoto} className="w-full h-full object-cover" />
+            <img src={songs[2].albumPhoto} className="w-full h-full object-cover" />
+            <img src={songs[3].albumPhoto} className="w-full h-full object-cover" />
         </div>
     );
 }
 
+function ConfirmModal({ title, message, confirmLabel = 'Confirmar', confirmClass = 'bg-red-600 hover:bg-red-700', onConfirm, onCancel }) {
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={onCancel}>
+      <div className="bg-[#121212] rounded-2xl p-8 w-80 text-center" onClick={e => e.stopPropagation()}>
+        <h3 className="text-white font-medium text-lg mb-2">{title}</h3>
+        <p className="text-[#a7a7a7] text-sm mb-6">{message}</p>
+        <div className="flex gap-3">
+          <button
+            onClick={onCancel}
+            className="flex-1 py-2.5 rounded-full border border-[#535353] text-white text-sm hover:border-white transition-colors"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={onConfirm}
+            className={`flex-1 py-2.5 rounded-full text-white text-sm font-medium transition-colors ${confirmClass}`}
+          >
+            {confirmLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CrearPlaylistModal({ onConfirm, onCancel }) {
+  const [nombre, setNombre] = useState('')
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={onCancel}>
+      <div className="bg-[#121212] rounded-2xl p-8 w-80" onClick={e => e.stopPropagation()}>
+        <h3 className="text-white font-medium text-lg mb-1 text-center">Nueva playlist</h3>
+        <p className="text-[#a7a7a7] text-sm text-center mb-6">Dale un nombre a tu playlist</p>
+        <input
+          autoFocus
+          type="text"
+          value={nombre}
+          onChange={e => setNombre(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && nombre.trim() && onConfirm(nombre.trim())}
+          placeholder="Mi playlist"
+          maxLength={60}
+          className="w-full bg-[#242424] border border-[#535353] rounded-md px-4 py-3 text-white text-sm placeholder-[#6a6a6a] focus:outline-none focus:border-blue-500 transition mb-6"
+        />
+        <div className="flex gap-3">
+          <button
+            onClick={onCancel}
+            className="flex-1 py-2.5 rounded-full border border-[#535353] text-white text-sm hover:border-white transition-colors"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={() => nombre.trim() && onConfirm(nombre.trim())}
+            disabled={!nombre.trim()}
+            className="flex-1 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors"
+          >
+            Crear
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
 
 export default function Home() {
-  const [activeNav, setActiveNav]       = useState('inicio')
-  const [search, setSearch]             = useState('')
-  const [playing, setPlaying]           = useState(TOP_SONGS[0])
-  const [isPaused, setIsPaused]         = useState(false)
+  const [activeNav, setActiveNav] = useState('inicio')
+  const [search, setSearch] = useState('')
+  const [playing, setPlaying] = useState(TOP_SONGS[0])
+  const [isPaused, setIsPaused] = useState(false)
   const [activePlaylist, setActivePlaylist] = useState(null)
   const [activeAlbum, setActiveAlbum] = useState(null)
   const [activeArtist, setActiveArtist] = useState(null)
-  const [ratingModal, setRatingModal]   = useState(null)
-  const [rating, setRating]             = useState(0)
-  const [toasts, setToasts]             = useState([])
+  const [ratingModal, setRatingModal] = useState(null)
+  const [rating, setRating] = useState(0)
+  const [toasts, setToasts] = useState([])
   const [searchResults, setSearchResults] = useState({ songs: [], albums: [], artists: [] })
   const [searching, setSearching] = useState(false)
   const [misPlaylists, setMisPlaylists] = useState([])
   const [songToAdd, setSongToAdd] = useState(null)
   const nombreUsuario = localStorage.getItem('username') || 'Usuario';
   const inicialUsuario = nombreUsuario.slice(0, 2).toUpperCase();
+  const [showCrearPlaylist, setShowCrearPlaylist] = useState(false)
+  const [playlistAEliminar, setPlaylistAEliminar] = useState(null) // { id, name }
+  const [currentSong, setCurrentSong] = useState(null)
 
   const navigate = useNavigate();
 
@@ -168,7 +226,7 @@ export default function Home() {
       }
   }
 
-// Hook para descargar las playlists al entrar a la aplicación
+  // Hook para descargar las playlists al entrar a la aplicación
   useEffect(() => {
       cargarPlaylists()
   }, [])
@@ -176,25 +234,21 @@ export default function Home() {
   async function cargarPlaylists() {
       try {
           const data = await obtenerMisPlaylists()
+          console.log(data)
           setMisPlaylists(data)
         } catch (error) {
             console.error("No se pudieron cargar las playlists")
         }
     }
 
-  async function handleCrearPlaylist() {
-      const nombre = prompt("Ingresa el nombre de tu nueva playlist:")
-      if (!nombre) return
-
-      try {
-          await crearPlaylist(nombre)
-          toast('Playlist creada exitosamente')
-          cargarPlaylists() // Se vuelve a pedir la lista actualizada a MongoDB
-        } catch (error) {
-            toast('Error al crear playlist')
-        }
-    }
-
+  async function handleCrearPlaylist(nombre) {
+    try {
+      await crearPlaylist(nombre)
+      toast('Playlist creada exitosamente')
+      cargarPlaylists()
+    } catch { toast('Error al crear playlist') }
+    finally { setShowCrearPlaylist(false) }
+  }
 
   async function handleAgregarCancion(playlistId) {
       try {
@@ -202,9 +256,9 @@ export default function Home() {
           // dependiendo de si viene del buscador o de un álbum
           const cancionDoc = {
               songId: songToAdd.id || songToAdd.songId,
-              songName: songToAdd.name || songToAdd.songName,
+              name: songToAdd.name || songToAdd.songName,
               duration: songToAdd.duration || 0,
-              songPhoto: songToAdd.albumPhoto || songToAdd.songPhoto || 'https://cdn-icons-png.flaticon.com/512/26/26805.png'
+              albumPhoto: songToAdd.albumPhoto || songToAdd.songPhoto || 'https://cdn-icons-png.flaticon.com/512/26/26805.png'
           };
 
           await agregarCancionAPlaylist(playlistId, cancionDoc);
@@ -235,23 +289,18 @@ export default function Home() {
   }
 
 
-  async function handleBorrarPlaylist(playlistId) {
-      const confirmar = window.confirm("Estás seguro de que deseas eliminar esta playlist por completo?");
-      if (!confirmar) return;
+  async function handleBorrarPlaylist() {
+      if (!playlistAEliminar) return
       try {
-          await borrarPlaylistDocumento(playlistId);
-          toast('Playlist eliminada definitivamente');
+        await borrarPlaylistDocumento(playlistAEliminar.id)
+        toast('Playlist eliminada')
+        setActivePlaylist(null)
+        setActiveNav('inicio')
+        cargarPlaylists()
+      } catch { toast('Error al eliminar la playlist') }
+      finally { setPlaylistAEliminar(null) }
+    }
 
-          // limpiamos la vista actual y regresamos a inicio
-          setActivePlaylist(null);
-          setActiveNav('inicio');
-
-          // recargamos el panel lateral
-          cargarPlaylists();
-      } catch (error) {
-          toast('Error al eliminar la playlist');
-      }
-  }
 
   // canciones, albumes y artistas
   async function handleSearch(value) {
@@ -333,14 +382,17 @@ export default function Home() {
     setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3000)
   }
 
-  function handlePlay(track) {
-    if (playing?.id === track.id) {
-      setIsPaused(p => !p)
-    } else {
+  async function handlePlay(track) {
+      if (playing?.id === track.id) { setIsPaused(p => !p); return }
       setPlaying(track)
+      console.log(playing)
       setIsPaused(false)
-      toast(`▶ Reproduciendo: ${track.name}`)
-    }
+      toast(`▶ Reproduciendo: ${track.name || track.songName}`)
+
+      const usuarioId = localStorage.getItem('userId')
+      if (usuarioId && track.id) {
+          reproducirCancion(usuarioId, track.id).catch(console.error)
+      }
   }
 
   function handleRate(item) {
@@ -348,196 +400,185 @@ export default function Home() {
     setRating(0)
   }
 
-  function submitRating() {
-    toast(`Calificaste "${ratingModal.name}" con ${rating}/10`)
-    setRatingModal(null)
+  async function submitRating() {
+      const usuarioId = localStorage.getItem('userId')
+      try {
+          if (usuarioId && ratingModal?.id) {
+              await calificarCancion(usuarioId, ratingModal.id, rating)
+          }
+          toast(`Calificaste "${ratingModal.name}" con ${rating}/10`)
+      } catch {
+          toast('Error al guardar la calificación')
+      }
+      setRatingModal(null)
   }
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Buenos días' : hour < 19 ? 'Buenas tardes' : 'Buenas noches'
 
   // ── Vista de playlist ───────────────────────────────────────────────────────
-    function PlaylistView({ playlist, onBack }) {
-      return (
-        <div>
-          <button onClick={onBack} className="flex items-center gap-2 text-[#a7a7a7] hover:text-white text-sm mb-6 transition-colors">
-            ← Volver
-          </button>
-
-          {/* Cabecera de la Playlist */}
-          <div className="flex items-end gap-6 mb-8">
-            <div className="w-40 h-40 rounded-lg overflow-hidden flex-shrink-0 shadow-2xl">
-              {/* Se reutiliza el componente dinámico de la portada de la playlist*/}
-              <PlaylistCover songs={playlist.songs} />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Lista</p>
-              <div className="flex items-center gap-4 mb-2">
-                  <h1 className="text-5xl font-bold text-white">{playlist.name}</h1>
-                  <button
-                      onClick={() => handleBorrarPlaylist(playlist.id)}
-                      className="w-10 h-10 rounded-full bg-red-500/10 text-red-500 hover:bg-red-500/20 flex items-center justify-center transition-colors shadow-md mt-4"
-                      title="Eliminar Playlist completa"
-                  >
-                      🗑️
-                  </button>
-              </div>
-              {/* mapeo hacia totalSongs */}
-              <p className="text-sm text-[#a7a7a7]">{nombreUsuario} • {playlist.totalSongs} canciones</p>
-            </div>
+  function PlaylistView({ playlist }) {
+    return (
+      <div>
+        <div className="flex items-end gap-6 mb-8">
+          <div className="w-40 h-40 rounded-lg overflow-hidden flex-shrink-0 shadow-2xl">
+            <PlaylistCover songs={playlist.songs} />
           </div>
-
-          {/* Lista de Canciones */}
-          <div className="space-y-1">
-            {!playlist.songs || playlist.songs.length === 0 ? (
-                <p className="text-[#a7a7a7] text-sm px-3 mt-4">Esta playlist está vacía. Busca canciones para agregar</p>
-            ) : (
-                playlist.songs.map((track, i) => (
-                  <div key={track.songId + i} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 cursor-pointer group">
-                    <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
-                    <span className="text-white text-sm w-5 text-center hidden group-hover:block">▶</span>
-
-                    <img src={track.songPhoto} className="w-10 h-10 rounded object-cover flex-shrink-0" />
-
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm text-white truncate">{track.songName}</div>
-                    </div>
-                    <div className="text-xs text-[#a7a7a7]">
-                      {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
-                    </div>
-
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleEliminarCancion(playlist.id, track);
-                        }}
-                        className="text-[#a7a7a7] hover:text-red-400 ml-4 flex-shrink-0 hidden group-hover:block"
-                        title="Eliminar de la Playlist"
-                    >
-                         ✕
-                    </button>
-
-                  </div>
-                ))
-            )}
+          <div>
+            <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Lista</p>
+            <div className="flex items-center gap-4 mb-2">
+              <h1 className="text-5xl font-bold text-white">{playlist.name}</h1>
+              <button
+                onClick={() => setPlaylistAEliminar({ id: playlist.id, name: playlist.name })}
+                className="w-9 h-9 rounded-full bg-red-500/10 text-red-400 hover:bg-red-500/20 flex items-center justify-center transition-colors mt-3 text-lg"
+                title="Eliminar playlist"
+              >🗑️</button>
+            </div>
+            <p className="text-sm text-[#a7a7a7]">{nombreUsuario} • {playlist.totalSongs} canciones</p>
           </div>
         </div>
-      )
-    }
+        <div className="space-y-1">
+          {!playlist.songs || playlist.songs.length === 0 ? (
+            <p className="text-[#a7a7a7] text-sm px-3 mt-4">Esta playlist está vacía. Busca canciones para agregar.</p>
+          ) : playlist.songs.map((track, i) => (
+            <div key={track.songId + i} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 cursor-pointer group"
+                onClick={() => handlePlay(track)}
+            >
+              <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
+              <span className="text-white text-sm w-5 text-center hidden group-hover:block">▶</span>
+              <img src={track.albumPhoto} className="w-10 h-10 rounded object-cover flex-shrink-0" alt="" />
+              <div className="flex-1 min-w-0">
+                <div className="text-sm text-white truncate">{track.name}</div>
+              </div>
+              <div className="text-xs text-[#a7a7a7]">
+                {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
+              </div>
+              <button
+                onClick={e => { e.stopPropagation(); handleEliminarCancion(playlist.id, track) }}
+                className="text-[#a7a7a7] hover:text-red-400 ml-4 flex-shrink-0 hidden group-hover:block transition-colors"
+                title="Eliminar de la playlist"
+              >✕</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
 
   // ── Contenido principal ─────────────────────────────────────────────────────
   function MainContent() {
     if (activePlaylist) return <PlaylistView playlist={activePlaylist} onBack={() => setActivePlaylist(null)} />
 
     if (activeAlbum) {
-            return (
-                <div>
-                    {/* Cabecera del Álbum */}
-                    <div className="flex items-end gap-6 mb-8">
-                        <img src={activeAlbum.photo} alt={activeAlbum.title} className="w-40 h-40 rounded-lg object-cover shadow-2xl" />
-                        <div>
-                            <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Álbum</p>
-                            <h1 className="text-4xl font-bold text-white mb-2">{activeAlbum.title}</h1>
-                            <p className="text-sm text-[#a7a7a7]">{activeAlbum.artistName} • {activeAlbum.releaseYear} • {activeAlbum.totalSongs} canciones</p>
-                        </div>
+        return (
+            <div>
+                {/* Cabecera del Álbum */}
+                <div className="flex items-end gap-6 mb-8">
+                    <img src={activeAlbum.photo} alt={activeAlbum.title} className="w-40 h-40 rounded-lg object-cover shadow-2xl" />
+                    <div>
+                        <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Álbum</p>
+                        <h1 className="text-4xl font-bold text-white mb-2">{activeAlbum.title}</h1>
+                        <p className="text-sm text-[#a7a7a7]">{activeAlbum.artistName} • {activeAlbum.releaseYear} • {activeAlbum.totalSongs} canciones</p>
                     </div>
+                </div>
 
-                    {/* Iteración del Tracklist */}
+                {/* Iteración del Tracklist */}
+                <div className="space-y-1">
+                    <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4 px-3">Pistas</h3>
+                    {activeAlbum.tracklist.map((track, i) => (
+                        <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group">
+                            <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
+                            <span className="text-white text-sm w-5 text-center hidden group-hover:block cursor-pointer">▶</span>
+                            <div className="flex-1 min-w-0">
+                                <div className="text-sm text-white truncate">{track.songName}</div>
+                                <div className="text-xs text-[#a7a7a7]">{activeAlbum.artistName}</div>
+                            </div>
+                            <div className="text-xs text-[#a7a7a7]">
+                                {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
+                            </div>
+
+                            {/* BOTÓN PARA EL ÁLBUM */}
+                            <button
+                               onClick={(e) => {
+                                  e.stopPropagation();
+                                  // aqui como una cancion dentro de un album no tiene foto, insertamos la del album directamente
+                                  setSongToAdd({ ...track, songPhoto: activeAlbum.photo });
+                               }}
+                               className="text-[#a7a7a7] hover:text-white ml-4 flex-shrink-0 hidden group-hover:block"
+                               title="Agregar a Playlist"
+                            >
+                              ➕
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (activeArtist) {
+        return (
+            <div>
+                <button onClick={handleBack} className="flex items-center gap-2 text-[#a7a7a7] hover:text-white text-sm mb-6 transition-colors">
+                    ← Volver
+                </button>
+
+                {/* Perfil */}
+                <div className="flex items-end gap-6 mb-8">
+                    <img src={activeArtist.photo} alt={activeArtist.name} className="w-40 h-40 rounded-full object-cover shadow-2xl" />
+                    <div>
+                        <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Perfil Verificado</p>
+                        <h1 className="text-5xl font-bold text-white mb-2">{activeArtist.name}</h1>
+                    </div>
+                </div>
+
+                {/* Top 5 Canciones */}
+                <div className="mb-8">
+                    <h3 className="text-base font-medium text-white mb-4 px-3">Canciones Populares</h3>
                     <div className="space-y-1">
-                        <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4 px-3">Pistas</h3>
-                        {activeAlbum.tracklist.map((track, i) => (
-                            <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group">
+                        {activeArtist.topSongs?.map((track, i) => (
+                            <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group cursor-pointer">
                                 <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
-                                <span className="text-white text-sm w-5 text-center hidden group-hover:block cursor-pointer">▶</span>
+                                <span className="text-white text-sm w-5 text-center hidden group-hover:block">▶</span>
                                 <div className="flex-1 min-w-0">
                                     <div className="text-sm text-white truncate">{track.songName}</div>
-                                    <div className="text-xs text-[#a7a7a7]">{activeAlbum.artistName}</div>
                                 </div>
                                 <div className="text-xs text-[#a7a7a7]">
                                     {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
                                 </div>
 
-                                {/* BOTÓN PARA EL ÁLBUM */}
                                 <button
-                                   onClick={(e) => {
-                                      e.stopPropagation();
-                                      // aqui como una cancion dentro de un album no tiene foto, insertamos la del album directamente
-                                      setSongToAdd({ ...track, songPhoto: activeAlbum.photo });
-                                   }}
-                                   className="text-[#a7a7a7] hover:text-white ml-4 flex-shrink-0 hidden group-hover:block"
-                                   title="Agregar a Playlist"
+                                    onClick={(e) => {
+                                       e.stopPropagation();
+                                       setSongToAdd({ ...track, songPhoto: activeArtist.photo });
+                                    }}
+                                    className="text-[#a7a7a7] hover:text-white ml-4 flex-shrink-0 hidden group-hover:block"
+                                    title="Agregar a Playlist"
                                 >
-                                  ➕
+                                   ➕
                                 </button>
                             </div>
                         ))}
                     </div>
                 </div>
-            );
-        }
 
-    if (activeArtist) {
-            return (
+                {/* Discografía del artista */}
                 <div>
-                    <button onClick={handleBack} className="flex items-center gap-2 text-[#a7a7a7] hover:text-white text-sm mb-6 transition-colors">
-                        ← Volver
-                    </button>
-
-                    {/* Perfil */}
-                    <div className="flex items-end gap-6 mb-8">
-                        <img src={activeArtist.photo} alt={activeArtist.name} className="w-40 h-40 rounded-full object-cover shadow-2xl" />
-                        <div>
-                            <p className="text-xs uppercase tracking-wider text-[#a7a7a7] mb-1">Perfil Verificado</p>
-                            <h1 className="text-5xl font-bold text-white mb-2">{activeArtist.name}</h1>
-                        </div>
-                    </div>
-
-                    {/* Top 5 Canciones */}
-                    <div className="mb-8">
-                        <h3 className="text-base font-medium text-white mb-4 px-3">Canciones Populares</h3>
-                        <div className="space-y-1">
-                            {activeArtist.topSongs?.map((track, i) => (
-                                <div key={track.songId} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 group cursor-pointer">
-                                    <span className="text-sm text-[#a7a7a7] w-5 text-center group-hover:hidden">{i + 1}</span>
-                                    <span className="text-white text-sm w-5 text-center hidden group-hover:block">▶</span>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="text-sm text-white truncate">{track.songName}</div>
-                                    </div>
-                                    <div className="text-xs text-[#a7a7a7]">
-                                        {Math.floor(track.duration / 60)}:{String(track.duration % 60).padStart(2, '0')}
-                                    </div>
-
-                                    <button
-                                        onClick={(e) => {
-                                           e.stopPropagation();
-                                           setSongToAdd({ ...track, songPhoto: activeArtist.photo });
-                                        }}
-                                        className="text-[#a7a7a7] hover:text-white ml-4 flex-shrink-0 hidden group-hover:block"
-                                        title="Agregar a Playlist"
-                                    >
-                                       ➕
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Discografía del artista */}
-                    <div>
-                        <h3 className="text-base font-medium text-white mb-4 px-3">Discografía</h3>
-                        <div className="grid grid-cols-4 gap-3">
-                            {activeArtist.albums?.map(a => (
-                                <div key={a.albumId} onClick={() => getAlbumDetails(a.albumId)} className="bg-[#181818] hover:bg-[#242424] rounded-lg p-4 cursor-pointer transition-colors group">
-                                    <img src={a.albumPhoto} className="w-full aspect-square rounded-md object-cover mb-3" />
-                                    <div className="text-sm font-medium text-white truncate">{a.albumTitle}</div>
-                                    <div className="text-xs text-[#a7a7a7] mt-1">{a.albumYear}</div>
-                                </div>
-                            ))}
-                        </div>
+                    <h3 className="text-base font-medium text-white mb-4 px-3">Discografía</h3>
+                    <div className="grid grid-cols-4 gap-3">
+                        {activeArtist.albums?.map(a => (
+                            <div key={a.albumId} onClick={() => getAlbumDetails(a.albumId)} className="bg-[#181818] hover:bg-[#242424] rounded-lg p-4 cursor-pointer transition-colors group">
+                                <img src={a.albumPhoto} className="w-full aspect-square rounded-md object-cover mb-3" />
+                                <div className="text-sm font-medium text-white truncate">{a.albumTitle}</div>
+                                <div className="text-xs text-[#a7a7a7] mt-1">{a.albumYear}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            )
-        }
+            </div>
+        )
+    }
 
     if (activeNav === 'buscar') return (
         <div>
@@ -553,20 +594,20 @@ export default function Home() {
             )}
 
             {/* Artistas */}
-                        {!searching && searchResults.artists?.length > 0 && (
-                                        <div className="mb-8">
-                                            <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4">Artistas</h3>
-                                            <div className="grid grid-cols-4 gap-3">
-                                                {searchResults.artists.slice(0, 4).map(artista => (
-                                                    <div key={artista.id} onClick={() => getArtistDetails(artista.id)} className="bg-[#181818] hover:bg-[#242424] rounded-lg p-4 cursor-pointer transition-colors flex flex-col items-center text-center group">
-                                                        <img src={artista.photo} className="w-24 h-24 rounded-full object-cover mb-3 shadow-lg" />
-                                                        <div className="text-sm font-medium text-white truncate w-full">{artista.name}</div>
-                                                        <div className="text-xs text-[#a7a7a7] mt-1">Artista</div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                        )}
+            {!searching && searchResults.artists?.length > 0 && (
+                <div className="mb-8">
+                    <h3 className="text-xs font-medium text-[#a7a7a7] uppercase tracking-wider mb-4">Artistas</h3>
+                    <div className="grid grid-cols-4 gap-3">
+                        {searchResults.artists.slice(0, 4).map(artista => (
+                            <div key={artista.id} onClick={() => getArtistDetails(artista.id)} className="bg-[#181818] hover:bg-[#242424] rounded-lg p-4 cursor-pointer transition-colors flex flex-col items-center text-center group">
+                                <img src={artista.photo} className="w-24 h-24 rounded-full object-cover mb-3 shadow-lg" />
+                                <div className="text-sm font-medium text-white truncate w-full">{artista.name}</div>
+                                <div className="text-xs text-[#a7a7a7] mt-1">Artista</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Álbumes */}
             {!searching && searchResults.albums?.length > 0 && (
@@ -664,7 +705,6 @@ export default function Home() {
                                     {Math.floor(t.duration / 60)}:{String(t.duration % 60).padStart(2, '0')}
                                 </div>
 
-
                                 <button
                                     onClick={(e) => { e.stopPropagation(); setSongToAdd(t); }}
                                     className="text-[#a7a7a7] hover:text-white ml-4 flex-shrink-0"
@@ -672,7 +712,6 @@ export default function Home() {
                                 >
                                     ➕
                                 </button>
-
                             </div>
                         ))}
                     </div>
@@ -812,22 +851,20 @@ export default function Home() {
               <div className="bg-[#121212] rounded-xl p-4 flex-1 overflow-y-auto">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-[#a7a7a7]">Tu biblioteca</span>
-                  <button
-                    onClick={handleCrearPlaylist}
-                    className="text-[#a7a7a7] hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
+                  <button onClick={() => setShowCrearPlaylist(true)}
+                    className="text-[#a7a7a7] hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors text-lg leading-none"
+                    title="Nueva playlist"
                   >+</button>
                 </div>
                 <div className="space-y-1">
                   {misPlaylists.map(p => (
-                    <button
-                      key={p.id}
+                    <button key={p.id}
                       onClick={() => { setActivePlaylist(p); setActiveNav('inicio') }}
-                      className="w-full flex items-center gap-3 p-2 rounded-md hover:bg-white/5 transition-colors cursor-pointer"
+                      className="w-full flex items-center gap-3 p-2 rounded-md hover:bg-white/5 transition-colors"
                     >
                       <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
                         <PlaylistCover songs={p.songs} />
                       </div>
-
                       <div className="min-w-0 text-left">
                         <div className="text-sm font-medium text-white truncate">{p.name}</div>
                         <div className="text-xs text-[#a7a7a7]">Lista • {p.totalSongs} canciones</div>
@@ -836,6 +873,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
+
 
               {/* Botón para cerrar sesión */}
               <div className="bg-[#121212] rounded-xl p-2 mt-auto">
@@ -897,7 +935,17 @@ export default function Home() {
           {/* Track info */}
           <div className="flex items-center gap-3 w-52 flex-shrink-0">
             <div className="w-12 h-12 rounded flex items-center justify-center text-xl flex-shrink-0" style={{ background: playing?.bg || '#1a73e8' }}>
-              {playing?.emoji || '🎵'}
+              {playing?.albumPhoto ? (
+                  <img
+                    src={playing.albumPhoto}
+                    alt={playing.name}
+                    className="w-full aspect-square rounded-md object-cover"
+                    onError={e => {
+                        e.target.style.display = 'none'
+                        e.target.nextSibling.style.display = 'flex'
+                    }}
+                />
+              ) : '🎵'}
             </div>
             <div className="min-w-0">
               <div className="text-sm font-medium text-white truncate">{playing?.name}</div>
@@ -974,30 +1022,53 @@ export default function Home() {
       )}
 
       {/* ── Modal Agregar a Playlist ────────────────────────────────────────── */}
-            {songToAdd && (
-              <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={() => setSongToAdd(null)}>
-                <div className="bg-[#121212] rounded-2xl p-6 w-80" onClick={e => e.stopPropagation()}>
-                  <h3 className="text-white font-medium mb-4 text-center">Agregar a Playlist</h3>
-                  <div className="space-y-2 max-h-60 overflow-y-auto">
-                    {misPlaylists.length === 0 && (
-                        <p className="text-[#a7a7a7] text-sm text-center py-4">No tienes playlists creadas</p>
-                    )}
-                    {misPlaylists.map(p => (
-                      <button
-                        key={p.id}
-                        onClick={() => handleAgregarCancion(p.id)}
-                        className="w-full text-left px-4 py-3 rounded-md text-sm text-white hover:bg-white/10 transition-colors flex items-center gap-3"
-                      >
-                        <span className="text-xl">🎵</span> {p.name}
-                      </button>
-                    ))}
-                  </div>
-                  <button onClick={() => setSongToAdd(null)} className="w-full mt-4 py-2 text-[#a7a7a7] text-sm hover:text-white transition-colors">
-                    Cancelar
+        {songToAdd && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={() => setSongToAdd(null)}>
+            <div className="bg-[#121212] rounded-2xl p-6 w-80" onClick={e => e.stopPropagation()}>
+              <h3 className="text-white font-medium mb-4 text-center">Agregar a Playlist</h3>
+              <div className="space-y-2 max-h-60 overflow-y-auto">
+                {misPlaylists.length === 0 && (
+                    <p className="text-[#a7a7a7] text-sm text-center py-4">No tienes playlists creadas</p>
+                )}
+                {misPlaylists.map(p => (
+                  <button
+                    key={p.id}
+                    onClick={() => handleAgregarCancion(p.id)}
+                    className="w-full text-left px-4 py-3 rounded-md text-sm text-white hover:bg-white/10 transition-colors flex items-center gap-3"
+                  >
+                    <span className="text-xl">🎵</span> {p.name}
                   </button>
-                </div>
+                ))}
               </div>
-            )}
+              <button onClick={() => setSongToAdd(null)} className="w-full mt-4 py-2 text-[#a7a7a7] text-sm hover:text-white transition-colors">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── Modales ──────────────────────────────────────────────────────────── */}
+
+        {/* Crear playlist */}
+        {showCrearPlaylist && (
+          <CrearPlaylistModal
+            onConfirm={handleCrearPlaylist}
+            onCancel={() => setShowCrearPlaylist(false)}
+          />
+        )}
+
+        {/* Confirmar eliminar playlist */}
+        {playlistAEliminar && (
+          <ConfirmModal
+            title="Eliminar playlist"
+            message={`¿Estás seguro de que quieres eliminar "${playlistAEliminar.name}"? Esta acción no se puede deshacer.`}
+            confirmLabel="Eliminar"
+            confirmClass="bg-red-600 hover:bg-red-700"
+            onConfirm={handleBorrarPlaylist}
+            onCancel={() => setPlaylistAEliminar(null)}
+          />
+        )}
+
 
       {/* ── Toasts ──────────────────────────────────────────────────────────── */}
       <div className="fixed bottom-24 left-1/2 -translate-x-1/2 flex flex-col gap-2 z-50 pointer-events-none">

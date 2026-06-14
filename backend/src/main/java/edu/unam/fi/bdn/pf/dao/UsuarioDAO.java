@@ -8,6 +8,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Repository // Para crear la instancia del DAO automaticamente, utilizada por Service
@@ -32,7 +33,7 @@ public class UsuarioDAO {
                 .append("email",     usuario.getEmail())
                 .append("username",  usuario.getUsername())
                 .append("password",  usuario.getPassword())
-                .append("createdAt", usuario.getCreatedAt());
+                .append("createdAt", new Date());
 
         users().insertOne(doc);
 
@@ -60,7 +61,7 @@ public class UsuarioDAO {
                 .email(doc.getString("email"))
                 .username(doc.getString("username"))
                 .password(doc.getString("password"))
-                .createdAt(doc.getLong("createdAt"))
+                .createdAt(doc.getDate("createdAt"))
                 .build();
     }
 
