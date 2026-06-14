@@ -17,12 +17,14 @@ public class ActividadDAO {
     // historial del usuario
     public void registrarReproduccion(String userId, String songId) {
         try (CqlSession session = CassandraPoolManager.getConnection()){
-            var insert = insertInto("listeniing_history_by_user")
-                    .value("user_id", literal(UUID.fromString(userId)))
+            var insert = insertInto("listening_history_by_user")
+                    .value("user_id", literal(userId))
                     .value("listened_at", literal(Instant.now()))
-                    .value("song_id", literal(UUID.fromString(songId)));
+                    .value("song_id", literal(songId));
 
             session.execute(insert.build());
+        }  catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -30,7 +32,7 @@ public class ActividadDAO {
         try (CqlSession session = CassandraPoolManager.getConnection()) {
             var select = selectFrom("listening_history_by_user")
                     .all()
-                    .whereColumn("user_id").isEqualTo(literal(UUID.fromString(userId)))
+                    .whereColumn("user_id").isEqualTo(literal(userId))
                     .limit(6) // solo mostrar las última 6 canciones
                     .build();
             List<Map<String, String>> result = new ArrayList<>();
@@ -49,10 +51,10 @@ public class ActividadDAO {
         try (CqlSession session = CassandraPoolManager.getConnection()) {
             // bitácora en ratings_by_user
             var insertRating = insertInto("ratings_by_user")
-                    .value("user_id",  literal(UUID.fromString(userId)))
+                    .value("user_id",  literal(userId))
                     .value("rating",   literal(rating))
                     .value("rated_at", literal(Instant.now()))
-                    .value("song_id",  literal(UUID.fromString(songId)));
+                    .value("song_id",  literal(songId));
 
             session.execute(insertRating.build());
 
@@ -64,7 +66,7 @@ public class ActividadDAO {
                             "UPDATE song_rating_stats " +
                                     "SET total_ratings += 1, rating_sum += ? " +
                                     "WHERE song_id = ?",
-                            (long) rating, UUID.fromString(songId)
+                            (long) rating, songId
                     )
             );
         }
@@ -75,7 +77,7 @@ public class ActividadDAO {
         try (CqlSession session = CassandraPoolManager.getConnection()) {
             var select = selectFrom("song_rating_stats")
                     .columns("total_ratings", "rating_sum")
-                    .whereColumn("song_id").isEqualTo(literal(UUID.fromString(songId)))
+                    .whereColumn("song_id").isEqualTo(literal(songId))
                     .build();
 
             Row row = session.execute(select).one();
