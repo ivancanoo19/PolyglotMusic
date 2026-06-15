@@ -9,7 +9,6 @@ export async function reproducirCancion(usuarioId, cancionId) {
 }
 
 export async function calificarCancion(usuarioId, cancionId, valor) {
-    console.log(valor)
     const res = await fetch('/api/actividad/calificar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
