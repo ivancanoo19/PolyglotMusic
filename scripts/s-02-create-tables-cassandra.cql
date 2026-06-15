@@ -2,19 +2,19 @@
 
 USE polyglotmusic;
 
-// partición por usuario, ordenado por rating
-// se agrega rated at y song id ya que si no
-// cassandra no sabría diferenciar cuando se tenga
-// un mismo valor en rating, por eso se agrega la fecha
-// y id de la cancion
+// Esta primary key garantiza que:
+//   - No se guarde un nuevo registro por cada canción que califique el usuario
+//   - Es decir, si se trata de una calificación que ya había calificado anteriormente, queremos que precisamente
+//     se sobreescriba el registro. No queremos que se inserte uno nuevo
+//   - Quitamos el timestamp de esto y dejamos solo user_id y song_id
 DROP TABLE IF EXISTS ratings_by_user;
-CREATE TABLE ratings_by_user (
-    user_id TEXT,
-    rating INT,
-    rated_at TIMESTAMP,
-    song_id TEXT,
-    PRIMARY KEY (user_id, rating, rated_at, song_id)
-) WITH CLUSTERING ORDER BY (rating DESC, rated_at DESC);
+create table ratings_by_user(
+    user_id  text,
+    song_id  text,
+    rating   int,
+    rated_at timestamp,
+    PRIMARY KEY (user_id, song_id)
+);
 
 // para poder obtener el promedio de las canciones y
 // almacenarlo en redis en un zset
