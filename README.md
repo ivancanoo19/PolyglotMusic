@@ -36,6 +36,7 @@ show collections
 db.artists.countDocuments()
 db.albums.countDocuments()
 db.songs.countDocuments()
+db.songs.getIndexes()
 ```
 
 - Si se desea borrar la base de datos para realizar de nuevo el seeding.

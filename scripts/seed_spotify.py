@@ -1,3 +1,4 @@
+import os
 import requests
 import base64
 import hashlib
@@ -90,7 +91,7 @@ def get_albums(artista_id_spotify, artista_nombre, token):
     """Se buscan los albumes de un artista en Spotify con su spotify_id. Se construye su documento y las canciones"""
     url = f"https://api.spotify.com/v1/artists/{artista_id_spotify}/albums"
     headers = {"Authorization": f"Bearer {token}"}
-    params = {"include_groups": "album", "limit": 5, "market": "MX", "offset": 0}
+    params = {"include_groups": "album", "limit": 10, "market": "MX", "offset": 0}
 
     response = requests.get(url, headers=headers, params=params)
 
@@ -176,7 +177,8 @@ def get_songs_models(album_spotify_id, album_titulo, album_anio, album_foto, art
                 "album_name": album_titulo,
                 "album_photo": album_foto,
                 "duration": duracion_segundos,
-                "average_users_score": 0.0
+                "average_users_score": 0.0,
+                "total_plays": 0
             }
             documentos_canciones.append(documento_cancion)
 
@@ -212,7 +214,7 @@ if __name__ == "__main__":
     if token:
         artistas_a_buscar = [
             "The Beatles", "Olivia Rodrigo",
-            "Arctic Monkeys"
+            "Arctic Monkeys", "Black Sabbath", "Weyes Blood", "Fiona Apple"
         ]
 
         todos_artistas = []
@@ -235,15 +237,18 @@ if __name__ == "__main__":
             # nombre de la BD
             f.write("db = db.getSiblingDB('polyglotmusic');\n\n")
 
-            usuarios_test = """db.users.insertMany([
-    { _id: ObjectId("dddddddddddddddddddd0001"), username: "canotest" },
-    { _id: ObjectId("dddddddddddddddddddd0002"), username: "edutest" }]);\n\n"""
-            f.write(usuarios_test)
-
             # catalogo musical base
             f.write(format_mongo_js("artists", todos_artistas))
             f.write(format_mongo_js("albums", todos_albumes))
             f.write(format_mongo_js("songs", todas_canciones))
+
+            f.write("\n// Creación de índices B-Tree para optimizar consultas del top 10 global\n")
+            # -1 para que MongoDB los ordene de forma descendente (de mayor a menor)
+            f.write("db.songs.createIndex({ average_users_score: -1 });\n")
+            f.write("db.songs.createIndex({ total_plays: -1 });\n")
+
+
+
 
         print(f"\n - Archivo {ruta_archivo} generado con éxito.")
         print(f"Resumen: {len(todos_artistas)} Artistas | {len(todos_albumes)} Álbumes | {len(todas_canciones)} Canciones")
